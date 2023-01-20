@@ -33,5 +33,10 @@ namespace OrganizeMe
                 SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
             }
         }
+
+        private void content_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

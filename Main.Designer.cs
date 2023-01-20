@@ -32,15 +32,16 @@
             this.head = new System.Windows.Forms.Label();
             this.body = new System.Windows.Forms.Panel();
             this.sidebar = new System.Windows.Forms.Panel();
-            this.note4 = new System.Windows.Forms.Label();
-            this.note3 = new System.Windows.Forms.Label();
-            this.note2 = new System.Windows.Forms.Label();
+            this.notesList = new System.Windows.Forms.Panel();
             this.note1 = new System.Windows.Forms.Label();
-            this.editor = new System.Windows.Forms.Panel();
-            this.content = new System.Windows.Forms.TextBox();
+            this.noteButton = new System.Windows.Forms.Panel();
             this.createNewNote = new System.Windows.Forms.Button();
+            this.editor = new System.Windows.Forms.Panel();
+            this.content1 = new System.Windows.Forms.TextBox();
             this.body.SuspendLayout();
             this.sidebar.SuspendLayout();
+            this.notesList.SuspendLayout();
+            this.noteButton.SuspendLayout();
             this.editor.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -73,58 +74,23 @@
             // sidebar
             // 
             this.sidebar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            this.sidebar.Controls.Add(this.note4);
-            this.sidebar.Controls.Add(this.note3);
-            this.sidebar.Controls.Add(this.note2);
-            this.sidebar.Controls.Add(this.note1);
-            this.sidebar.Controls.Add(this.createNewNote);
+            this.sidebar.Controls.Add(this.notesList);
+            this.sidebar.Controls.Add(this.noteButton);
             this.sidebar.Dock = System.Windows.Forms.DockStyle.Left;
             this.sidebar.Location = new System.Drawing.Point(0, 0);
             this.sidebar.Name = "sidebar";
             this.sidebar.Size = new System.Drawing.Size(200, 520);
             this.sidebar.TabIndex = 2;
             // 
-            // note4
+            // notesList
             // 
-            this.note4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.note4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.note4.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.note4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.note4.Location = new System.Drawing.Point(0, 184);
-            this.note4.Name = "note4";
-            this.note4.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
-            this.note4.Size = new System.Drawing.Size(200, 46);
-            this.note4.TabIndex = 7;
-            this.note4.Text = "Note 4";
-            this.note4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // note3
-            // 
-            this.note3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.note3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.note3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.note3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.note3.Location = new System.Drawing.Point(0, 138);
-            this.note3.Name = "note3";
-            this.note3.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
-            this.note3.Size = new System.Drawing.Size(200, 46);
-            this.note3.TabIndex = 6;
-            this.note3.Text = "Note 3";
-            this.note3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // note2
-            // 
-            this.note2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.note2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.note2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.note2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.note2.Location = new System.Drawing.Point(0, 92);
-            this.note2.Name = "note2";
-            this.note2.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
-            this.note2.Size = new System.Drawing.Size(200, 46);
-            this.note2.TabIndex = 5;
-            this.note2.Text = "Note 2";
-            this.note2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.notesList.Controls.Add(this.note1);
+            this.notesList.Dock = System.Windows.Forms.DockStyle.Top;
+            this.notesList.Location = new System.Drawing.Point(0, 46);
+            this.notesList.Margin = new System.Windows.Forms.Padding(0);
+            this.notesList.Name = "notesList";
+            this.notesList.Size = new System.Drawing.Size(200, 474);
+            this.notesList.TabIndex = 6;
             // 
             // note1
             // 
@@ -133,44 +99,25 @@
             this.note1.Dock = System.Windows.Forms.DockStyle.Top;
             this.note1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.note1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.note1.Location = new System.Drawing.Point(0, 46);
+            this.note1.Location = new System.Drawing.Point(0, 0);
+            this.note1.Margin = new System.Windows.Forms.Padding(0);
             this.note1.Name = "note1";
             this.note1.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
             this.note1.Size = new System.Drawing.Size(200, 46);
             this.note1.TabIndex = 4;
             this.note1.Text = "Note 1";
             this.note1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.note1.Click += new System.EventHandler(this.loadNote);
             // 
-            // editor
+            // noteButton
             // 
-            this.editor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
-            this.editor.Controls.Add(this.content);
-            this.editor.Dock = System.Windows.Forms.DockStyle.Right;
-            this.editor.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.editor.Location = new System.Drawing.Point(200, 0);
-            this.editor.Margin = new System.Windows.Forms.Padding(0);
-            this.editor.Name = "editor";
-            this.editor.Padding = new System.Windows.Forms.Padding(20);
-            this.editor.Size = new System.Drawing.Size(800, 520);
-            this.editor.TabIndex = 1;
-            // 
-            // content
-            // 
-            this.content.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.content.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.RecentlyUsedList;
-            this.content.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
-            this.content.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.content.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.content.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.content.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.content.Location = new System.Drawing.Point(20, 20);
-            this.content.Margin = new System.Windows.Forms.Padding(0);
-            this.content.Multiline = true;
-            this.content.Name = "content";
-            this.content.Size = new System.Drawing.Size(760, 480);
-            this.content.TabIndex = 0;
-            this.content.Text = resources.GetString("content.Text");
-            this.content.TextChanged += new System.EventHandler(this.content_TextChanged);
+            this.noteButton.Controls.Add(this.createNewNote);
+            this.noteButton.Dock = System.Windows.Forms.DockStyle.Top;
+            this.noteButton.Location = new System.Drawing.Point(0, 0);
+            this.noteButton.Margin = new System.Windows.Forms.Padding(0);
+            this.noteButton.Name = "noteButton";
+            this.noteButton.Size = new System.Drawing.Size(200, 46);
+            this.noteButton.TabIndex = 5;
             // 
             // createNewNote
             // 
@@ -185,6 +132,36 @@
             this.createNewNote.TabIndex = 1;
             this.createNewNote.Text = "New Note";
             this.createNewNote.UseVisualStyleBackColor = false;
+            this.createNewNote.Click += new System.EventHandler(this.createNewNote_Click);
+            // 
+            // editor
+            // 
+            this.editor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
+            this.editor.Controls.Add(this.content1);
+            this.editor.Dock = System.Windows.Forms.DockStyle.Right;
+            this.editor.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.editor.Location = new System.Drawing.Point(200, 0);
+            this.editor.Margin = new System.Windows.Forms.Padding(0);
+            this.editor.Name = "editor";
+            this.editor.Padding = new System.Windows.Forms.Padding(20);
+            this.editor.Size = new System.Drawing.Size(800, 520);
+            this.editor.TabIndex = 1;
+            // 
+            // content1
+            // 
+            this.content1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
+            this.content1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.content1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.content1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.content1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.content1.Location = new System.Drawing.Point(20, 20);
+            this.content1.Margin = new System.Windows.Forms.Padding(0);
+            this.content1.Multiline = true;
+            this.content1.Name = "content1";
+            this.content1.Size = new System.Drawing.Size(760, 480);
+            this.content1.TabIndex = 0;
+            this.content1.TabStop = false;
+            this.content1.Text = resources.GetString("content1.Text");
             // 
             // main
             // 
@@ -192,12 +169,16 @@
             this.ClientSize = new System.Drawing.Size(1000, 600);
             this.Controls.Add(this.head);
             this.Controls.Add(this.body);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "main";
             this.Text = "Notes";
+            this.Load += new System.EventHandler(this.main_Load);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
             this.body.ResumeLayout(false);
             this.sidebar.ResumeLayout(false);
+            this.notesList.ResumeLayout(false);
+            this.noteButton.ResumeLayout(false);
             this.editor.ResumeLayout(false);
             this.editor.PerformLayout();
             this.ResumeLayout(false);
@@ -210,13 +191,12 @@
         private System.Windows.Forms.Label head;
         private System.Windows.Forms.Panel body;
         private System.Windows.Forms.Panel editor;
-        private System.Windows.Forms.TextBox content;
+        private System.Windows.Forms.TextBox content1;
         private System.Windows.Forms.Panel sidebar;
         private System.Windows.Forms.Label note1;
-        private System.Windows.Forms.Label note4;
-        private System.Windows.Forms.Label note3;
-        private System.Windows.Forms.Label note2;
         private System.Windows.Forms.Button createNewNote;
+        private System.Windows.Forms.Panel notesList;
+        private System.Windows.Forms.Panel noteButton;
     }
 }
 

@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="content.Text" xml:space="preserve">
+  <data name="content1.Text" xml:space="preserve">
     <value>As a machine learning engineer with over 5 years of experience in the field, I have a strong background in developing and implementing ML models for various industries. I have a deep understanding of ML algorithms and techniques, and I am proficient in programming languages such as Python, R, and Java. In my previous roles, I have successfully designed and deployed ML models that have improved business outcomes, such as increased efficiency and accuracy. I am a strong problem-solver and have excellent communication skills, which have helped me to effectively collaborate with cross-functional teams. I am excited to bring my expertise and passion for ML to a new organization and make a positive impact.</value>
   </data>
   <metadata name="$this.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">

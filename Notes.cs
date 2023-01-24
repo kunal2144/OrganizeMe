@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace OrganizeMe
 {
-    public partial class main : Form
+    public partial class Notes : Form
     {
         public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
@@ -32,7 +32,7 @@ namespace OrganizeMe
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         public static extern bool ReleaseCapture();
 
-        public main()
+        public Notes()
         {
             InitializeComponent();
         }

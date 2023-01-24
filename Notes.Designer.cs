@@ -1,6 +1,6 @@
 ﻿namespace OrganizeMe
 {
-    partial class main
+    partial class Notes
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(main));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Notes));
             this.head = new System.Windows.Forms.Label();
             this.body = new System.Windows.Forms.Panel();
             this.sidebar = new System.Windows.Forms.Panel();

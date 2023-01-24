@@ -1,6 +1,6 @@
 ﻿namespace OrganizeMe
 {
-    partial class Form1
+    partial class Registration
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Registration));
             this.title = new System.Windows.Forms.Label();
             this.registration_form = new System.Windows.Forms.Panel();
             this.confirmPassword = new System.Windows.Forms.TextBox();
@@ -61,11 +61,11 @@
             // registration_form
             // 
             this.registration_form.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
-            this.registration_form.Controls.Add(this.confirmPassword);
-            this.registration_form.Controls.Add(this.password);
+            this.registration_form.Controls.Add(this.submit);
             this.registration_form.Controls.Add(this.termsText);
             this.registration_form.Controls.Add(this.terms);
-            this.registration_form.Controls.Add(this.submit);
+            this.registration_form.Controls.Add(this.confirmPassword);
+            this.registration_form.Controls.Add(this.password);
             this.registration_form.Controls.Add(this.emailID);
             this.registration_form.Dock = System.Windows.Forms.DockStyle.Right;
             this.registration_form.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -79,20 +79,24 @@
             // confirmPassword
             // 
             this.confirmPassword.ForeColor = System.Drawing.Color.Gray;
-            this.confirmPassword.Location = new System.Drawing.Point(66, 173);
+            this.confirmPassword.Location = new System.Drawing.Point(66, 170);
             this.confirmPassword.Name = "confirmPassword";
             this.confirmPassword.Size = new System.Drawing.Size(241, 26);
-            this.confirmPassword.TabIndex = 7;
+            this.confirmPassword.TabIndex = 3;
             this.confirmPassword.Text = "Confirm Password";
+            this.confirmPassword.Enter += new System.EventHandler(this.placeholderDisappear);
+            this.confirmPassword.Leave += new System.EventHandler(this.placeholderAppear);
             // 
             // password
             // 
             this.password.ForeColor = System.Drawing.Color.Gray;
-            this.password.Location = new System.Drawing.Point(66, 129);
+            this.password.Location = new System.Drawing.Point(66, 127);
             this.password.Name = "password";
             this.password.Size = new System.Drawing.Size(241, 26);
-            this.password.TabIndex = 6;
+            this.password.TabIndex = 1;
             this.password.Text = "Password";
+            this.password.Enter += new System.EventHandler(this.placeholderDisappear);
+            this.password.Leave += new System.EventHandler(this.placeholderAppear);
             // 
             // termsText
             // 
@@ -100,20 +104,20 @@
             this.termsText.ForeColor = System.Drawing.Color.White;
             this.termsText.LinkArea = new System.Windows.Forms.LinkArea(15, 20);
             this.termsText.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.termsText.Location = new System.Drawing.Point(66, 216);
+            this.termsText.Location = new System.Drawing.Point(62, 213);
             this.termsText.Name = "termsText";
             this.termsText.Size = new System.Drawing.Size(268, 24);
             this.termsText.TabIndex = 5;
-            this.termsText.TabStop = true;
             this.termsText.Text = "I agree to the Terms and Conditions";
             this.termsText.UseCompatibleTextRendering = true;
+            this.termsText.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.termsText_LinkClicked);
             // 
             // terms
             // 
             this.terms.AutoSize = true;
             this.terms.CheckAlign = System.Drawing.ContentAlignment.BottomLeft;
             this.terms.ForeColor = System.Drawing.Color.White;
-            this.terms.Location = new System.Drawing.Point(45, 218);
+            this.terms.Location = new System.Drawing.Point(46, 215);
             this.terms.Name = "terms";
             this.terms.Size = new System.Drawing.Size(15, 14);
             this.terms.TabIndex = 4;
@@ -124,16 +128,18 @@
             this.submit.Location = new System.Drawing.Point(123, 250);
             this.submit.Name = "submit";
             this.submit.Size = new System.Drawing.Size(121, 30);
-            this.submit.TabIndex = 3;
+            this.submit.TabIndex = 5;
             this.submit.Text = "Submit";
             this.submit.UseVisualStyleBackColor = true;
+            this.submit.Click += new System.EventHandler(this.submit_Click);
             // 
             // emailID
             // 
+            this.emailID.BackColor = System.Drawing.SystemColors.Window;
             this.emailID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.emailID.ForeColor = System.Drawing.Color.Gray;
             this.emailID.Location = new System.Drawing.Point(66, 86);
-            this.emailID.Margin = new System.Windows.Forms.Padding(0);
+            this.emailID.Multiline = false;
             this.emailID.Name = "emailID";
             this.emailID.Size = new System.Drawing.Size(241, 26);
             this.emailID.TabIndex = 0;
@@ -179,16 +185,18 @@
             this.desc.Text = "A truly powerful and flexible PIM App";
             this.desc.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.desc.UseCompatibleTextRendering = true;
+            this.desc.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.desc_LinkClicked);
             // 
-            // Form1
+            // Registration
             // 
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(55)))), ((int)(((byte)(115)))));
             this.ClientSize = new System.Drawing.Size(684, 361);
             this.Controls.Add(this.branding);
             this.Controls.Add(this.registration_form);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.Name = "Form1";
+            this.Name = "Registration";
             this.Text = "Registration";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.registration_form.ResumeLayout(false);

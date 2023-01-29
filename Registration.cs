@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySqlConnector;
+using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Text.RegularExpressions;
@@ -20,8 +21,7 @@ namespace OrganizeMe
         {
             registration_form.Select();
             termsText.TabStop = false;
-            desc.TabStop= false;
-        }
+        }   
 
         private void placeholderDisappear(object sender, EventArgs e)
         {
@@ -141,6 +141,7 @@ namespace OrganizeMe
             }
 
             Notes notes = new Notes();
+            
             notes.Show();
             this.Hide();
         }

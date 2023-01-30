@@ -171,14 +171,18 @@ namespace OrganizeMe
                 while (reader.Read()) { }
                 reader.Close();
 
+                String query = "insert into notes values ";
+
                 foreach (Note note in Note.notes)
                 {
-                    String query = String.Format("insert into notes values (null, '{0}', '{1}')", note.dateCreated, note.content);
-                            
-                    reader = new MySqlCommand(query, connection).ExecuteReader();
-                    while (reader.Read()) { }
-                    reader.Close();
+                    query += String.Format("(null, '{0}', '{1}'), ", note.dateCreated, note.content);
                 }
+
+                query = query.Substring(0, query.Length - 2);
+
+                reader = new MySqlCommand(query, connection).ExecuteReader();
+                while (reader.Read()) { }
+                reader.Close();
             }
             catch(Exception ex)
             {

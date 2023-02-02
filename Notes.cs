@@ -1,11 +1,9 @@
 ﻿using MySqlConnector;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
-using static OrganizeMe.Notes;
 
 namespace OrganizeMe
 {
@@ -19,6 +17,7 @@ namespace OrganizeMe
 
         public static Label currentNoteLabel;
         public static TextBox currentNoteContent;
+        public static string filterType;
 
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
@@ -51,6 +50,7 @@ namespace OrganizeMe
         {
             public readonly int id;
             public readonly string dateCreated;
+            public readonly string type;
             public string content;
             public Label noteLabel;
             public static List<Note> notes = new List<Note>(); 
@@ -60,15 +60,15 @@ namespace OrganizeMe
             }
             public static Note currentNote;
 
-            public Note(int id, string dateCreated, string content, Label noteLabel)
+            public Note(int id, string dateCreated, string content, string type, Label noteLabel)
             {
                 this.id = id;
                 this.dateCreated = dateCreated;
                 this.content = content;
                 this.noteLabel = noteLabel;
+                this.type = type;
                 currentNote = this;
                 notes.Add(this);
-                Debug.WriteLine(this.dateCreated);
             }
         }
 
@@ -81,11 +81,20 @@ namespace OrganizeMe
                 {
                     while (reader.Read())
                     {
-                        new Note((int)reader.GetValue(0), ((DateTime)reader.GetValue(1)).ToString("yyyy'-'MM'-'dd"), (string)reader.GetValue(2), createNewLabel());
+                        new Note((int)reader.GetValue(0), ((DateTime)reader.GetValue(1)).ToString("yyyy'-'MM'-'dd"), (string)reader.GetValue(2), (string)reader.GetValue(3), createNewLabel());
                     }
+                    updateNoteSearch();
                 }
             }
             conn.Close();
+        }
+
+        public void updateNoteSearch()
+        {
+            foreach(Note note in Note.notes)
+            {
+                if(!searchNotes.Items.Contains(note.noteLabel.Text)) searchNotes.Items.Add(note.noteLabel.Text);
+            }
         }
 
         public Notes()
@@ -96,7 +105,8 @@ namespace OrganizeMe
         private void main_Load(object sender, EventArgs e)
         {
             fetchNotes(new MySqlConnection("SERVER=localhost;DATABASE=organizeMe;UID=root;PASSWORD=8136"));
-            if (Note.count == 0) createNewNote_Click(createNewNote, new EventArgs());
+            if (Note.count == 0) createNewNote_Click(newPersonalNote, new EventArgs());
+            filterType = (filter_personal.Checked) ? "personal" : "work";
             renderNotesList();
             content.SelectionLength = 0;
         }
@@ -115,9 +125,11 @@ namespace OrganizeMe
             //Save current note content
             if(Note.count != 0) Note.currentNote.content = content.Text;
 
-            new Note(Note.count, DateTime.Now.ToString("yyyy'-'MM'-'dd"), "Erase me and start noting!", createNewLabel());
+            if (((Button)sender).Name == "newWorkNote") new Note(Note.count, DateTime.Now.ToString("yyyy'-'MM'-'dd"), "Erase me and start noting!", "personal", createNewLabel());
+            else new Note(Note.count, DateTime.Now.ToString("yyyy'-'MM'-'dd"), "Erase me and start noting!", "work", createNewLabel());
             Note.currentNote.noteLabel.Show();
 
+            updateNoteSearch();
             renderNotesList();
         }
 
@@ -127,10 +139,12 @@ namespace OrganizeMe
             
             for(int i = 0; i < Note.count; i++)
             {
-                if(i != Note.count - 1)
-                    (Note.notes[i].noteLabel).BackColor = LABEL_COLOUR_UNSELECTED;
-
-                notesList.Controls.Add(Note.notes[i].noteLabel);
+                if (Note.notes[i].type == filterType)
+                {
+                    if (i != Note.count - 1) (Note.notes[i].noteLabel).BackColor = LABEL_COLOUR_UNSELECTED;
+                    
+                    notesList.Controls.Add(Note.notes[i].noteLabel);
+                }
             }
 
             content.Text = Note.currentNote.content;
@@ -148,6 +162,20 @@ namespace OrganizeMe
             Note.currentNote = Note.notes.Find(note => note.noteLabel == (Label)sender);
             content.Text = Note.currentNote.content;
         }
+
+        private void searchNotes_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Note selectedNote = Note.notes.Find(note =>
+            {
+                if (note.noteLabel.Text == searchNotes.Text) return true;
+                else return false;
+            });
+
+            if(selectedNote != null)
+            {
+                loadNote(selectedNote.noteLabel, new EventArgs());
+            }
+        } 
 
         private void Notes_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -195,6 +223,12 @@ namespace OrganizeMe
                     connection.Close();
                 }
             }
+        }
+
+        private void filter_personal_CheckedChanged(object sender, EventArgs e)
+        {
+            Debug.Write(filter_personal.Checked);
+            filterType = (filter_personal.Checked) ? "personal" : "work";
         }
     }
 }

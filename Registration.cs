@@ -91,11 +91,6 @@ namespace OrganizeMe
             }
         }
 
-        private void desc_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            System.Diagnostics.Process.Start("https://en.wikipedia.org/wiki/Personal_information_management");
-        }
-
         private void termsText_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start("https://en.wikipedia.org/wiki/Terms_of_service");

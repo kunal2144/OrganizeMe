@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Notes));
             this.head = new System.Windows.Forms.Label();
             this.body = new System.Windows.Forms.Panel();
             this.sidebar = new System.Windows.Forms.Panel();
@@ -38,8 +39,8 @@
             this.newPersonalNote = new System.Windows.Forms.Button();
             this.editor = new System.Windows.Forms.Panel();
             this.content = new System.Windows.Forms.TextBox();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.label2 = new System.Windows.Forms.Label();
+            this.header = new System.Windows.Forms.Panel();
+            this.searchNotesLabel = new System.Windows.Forms.Label();
             this.searchNotes = new System.Windows.Forms.ComboBox();
             this.filter = new System.Windows.Forms.GroupBox();
             this.filter_personal = new System.Windows.Forms.RadioButton();
@@ -49,7 +50,7 @@
             this.notesList.SuspendLayout();
             this.noteButton.SuspendLayout();
             this.editor.SuspendLayout();
-            this.panel1.SuspendLayout();
+            this.header.SuspendLayout();
             this.filter.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -66,7 +67,6 @@
             this.head.TabIndex = 0;
             this.head.Text = "OrganizeMe";
             this.head.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.head.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
             // 
             // body
             // 
@@ -125,20 +125,22 @@
             this.noteButton.Location = new System.Drawing.Point(0, 0);
             this.noteButton.Margin = new System.Windows.Forms.Padding(0);
             this.noteButton.Name = "noteButton";
+            this.noteButton.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
             this.noteButton.Size = new System.Drawing.Size(200, 62);
             this.noteButton.TabIndex = 5;
             // 
             // newWorkNote
             // 
             this.newWorkNote.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            this.newWorkNote.Dock = System.Windows.Forms.DockStyle.Left;
+            this.newWorkNote.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.newWorkNote.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.newWorkNote.ForeColor = System.Drawing.Color.White;
             this.newWorkNote.Location = new System.Drawing.Point(0, 0);
             this.newWorkNote.Margin = new System.Windows.Forms.Padding(0);
             this.newWorkNote.Name = "newWorkNote";
-            this.newWorkNote.Size = new System.Drawing.Size(96, 62);
+            this.newWorkNote.Size = new System.Drawing.Size(100, 62);
             this.newWorkNote.TabIndex = 2;
+            this.newWorkNote.TabStop = false;
             this.newWorkNote.Text = "Work Note";
             this.newWorkNote.UseVisualStyleBackColor = false;
             this.newWorkNote.Click += new System.EventHandler(this.createNewNote_Click);
@@ -146,14 +148,15 @@
             // newPersonalNote
             // 
             this.newPersonalNote.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            this.newPersonalNote.Dock = System.Windows.Forms.DockStyle.Right;
+            this.newPersonalNote.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.newPersonalNote.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.newPersonalNote.ForeColor = System.Drawing.Color.White;
-            this.newPersonalNote.Location = new System.Drawing.Point(96, 0);
+            this.newPersonalNote.Location = new System.Drawing.Point(100, 0);
             this.newPersonalNote.Margin = new System.Windows.Forms.Padding(0);
             this.newPersonalNote.Name = "newPersonalNote";
-            this.newPersonalNote.Size = new System.Drawing.Size(104, 62);
+            this.newPersonalNote.Size = new System.Drawing.Size(100, 62);
             this.newPersonalNote.TabIndex = 1;
+            this.newPersonalNote.TabStop = false;
             this.newPersonalNote.Text = "Personal Note\r\n";
             this.newPersonalNote.UseVisualStyleBackColor = false;
             this.newPersonalNote.Click += new System.EventHandler(this.createNewNote_Click);
@@ -187,29 +190,30 @@
             this.content.TabStop = false;
             this.content.Text = "Erase me and start noting!";
             // 
-            // panel1
+            // header
             // 
-            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(20)))), ((int)(((byte)(41)))));
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.searchNotes);
-            this.panel1.Controls.Add(this.filter);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel1.Location = new System.Drawing.Point(200, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(800, 80);
-            this.panel1.TabIndex = 2;
+            this.header.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(20)))), ((int)(((byte)(41)))));
+            this.header.Controls.Add(this.head);
+            this.header.Controls.Add(this.searchNotesLabel);
+            this.header.Controls.Add(this.searchNotes);
+            this.header.Controls.Add(this.filter);
+            this.header.Dock = System.Windows.Forms.DockStyle.Right;
+            this.header.Location = new System.Drawing.Point(0, 0);
+            this.header.Name = "header";
+            this.header.Size = new System.Drawing.Size(1000, 80);
+            this.header.TabIndex = 2;
             // 
-            // label2
+            // searchNotesLabel
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(280, 17);
-            this.label2.Margin = new System.Windows.Forms.Padding(0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(115, 20);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Jump to a note";
+            this.searchNotesLabel.AutoSize = true;
+            this.searchNotesLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.searchNotesLabel.ForeColor = System.Drawing.Color.White;
+            this.searchNotesLabel.Location = new System.Drawing.Point(469, 18);
+            this.searchNotesLabel.Margin = new System.Windows.Forms.Padding(0);
+            this.searchNotesLabel.Name = "searchNotesLabel";
+            this.searchNotesLabel.Size = new System.Drawing.Size(115, 20);
+            this.searchNotesLabel.TabIndex = 3;
+            this.searchNotesLabel.Text = "Jump to a note";
             // 
             // searchNotes
             // 
@@ -217,7 +221,7 @@
             this.searchNotes.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.searchNotes.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.searchNotes.FormattingEnabled = true;
-            this.searchNotes.Location = new System.Drawing.Point(245, 41);
+            this.searchNotes.Location = new System.Drawing.Point(434, 42);
             this.searchNotes.Name = "searchNotes";
             this.searchNotes.Size = new System.Drawing.Size(187, 24);
             this.searchNotes.TabIndex = 1;
@@ -229,7 +233,7 @@
             this.filter.Controls.Add(this.filter_work);
             this.filter.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.filter.ForeColor = System.Drawing.Color.White;
-            this.filter.Location = new System.Drawing.Point(669, 2);
+            this.filter.Location = new System.Drawing.Point(872, 1);
             this.filter.Name = "filter";
             this.filter.Size = new System.Drawing.Size(122, 72);
             this.filter.TabIndex = 2;
@@ -239,12 +243,10 @@
             // filter_personal
             // 
             this.filter_personal.AutoSize = true;
-            this.filter_personal.Checked = true;
             this.filter_personal.Location = new System.Drawing.Point(6, 19);
             this.filter_personal.Name = "filter_personal";
             this.filter_personal.Size = new System.Drawing.Size(79, 20);
             this.filter_personal.TabIndex = 1;
-            this.filter_personal.TabStop = true;
             this.filter_personal.Text = "Personal";
             this.filter_personal.UseVisualStyleBackColor = true;
             this.filter_personal.CheckedChanged += new System.EventHandler(this.filter_personal_CheckedChanged);
@@ -263,24 +265,23 @@
             // 
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(55)))), ((int)(((byte)(115)))));
             this.ClientSize = new System.Drawing.Size(1000, 600);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.head);
+            this.Controls.Add(this.header);
             this.Controls.Add(this.body);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "Notes";
             this.Text = "Notes";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Notes_FormClosing);
             this.Load += new System.EventHandler(this.main_Load);
-            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
             this.body.ResumeLayout(false);
             this.sidebar.ResumeLayout(false);
             this.notesList.ResumeLayout(false);
             this.noteButton.ResumeLayout(false);
             this.editor.ResumeLayout(false);
             this.editor.PerformLayout();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.header.ResumeLayout(false);
+            this.header.PerformLayout();
             this.filter.ResumeLayout(false);
             this.filter.PerformLayout();
             this.ResumeLayout(false);
@@ -289,7 +290,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label head;
         private System.Windows.Forms.Panel body;
         private System.Windows.Forms.Panel editor;
@@ -299,11 +299,11 @@
         private System.Windows.Forms.Button newPersonalNote;
         private System.Windows.Forms.Panel notesList;
         private System.Windows.Forms.Panel noteButton;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel header;
         private System.Windows.Forms.GroupBox filter;
         private System.Windows.Forms.RadioButton filter_personal;
         private System.Windows.Forms.RadioButton filter_work;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label searchNotesLabel;
         private System.Windows.Forms.ComboBox searchNotes;
         private System.Windows.Forms.Button newWorkNote;
     }

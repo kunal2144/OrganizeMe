@@ -39,9 +39,9 @@
             this.emailID = new System.Windows.Forms.RichTextBox();
             this.logo = new System.Windows.Forms.PictureBox();
             this.branding = new System.Windows.Forms.Panel();
-            this.desc = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.desc = new System.Windows.Forms.Label();
             this.registration_form.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logo)).BeginInit();
             this.branding.SuspendLayout();
@@ -105,6 +105,7 @@
             this.termsText.Name = "termsText";
             this.termsText.Size = new System.Drawing.Size(268, 24);
             this.termsText.TabIndex = 5;
+            this.termsText.TabStop = true;
             this.termsText.Text = "I agree to the Terms and Conditions";
             this.termsText.UseCompatibleTextRendering = true;
             this.termsText.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.termsText_LinkClicked);
@@ -181,19 +182,19 @@
             this.branding.Size = new System.Drawing.Size(327, 361);
             this.branding.TabIndex = 3;
             // 
-            // desc
+            // label2
             // 
-            this.desc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.desc.BackColor = System.Drawing.Color.Transparent;
-            this.desc.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.desc.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(234)))), ((int)(((byte)(234)))), ((int)(((byte)(234)))));
-            this.desc.Location = new System.Drawing.Point(1, 233);
-            this.desc.Margin = new System.Windows.Forms.Padding(0);
-            this.desc.Name = "desc";
-            this.desc.Size = new System.Drawing.Size(324, 34);
-            this.desc.TabIndex = 3;
-            this.desc.Text = "Simplifying lives, one task at a time.";
-            this.desc.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.label2.BackColor = System.Drawing.Color.Transparent;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(213)))), ((int)(((byte)(177)))));
+            this.label2.Location = new System.Drawing.Point(192, 234);
+            this.label2.Margin = new System.Windows.Forms.Padding(0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(42, 33);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "task";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label1
             // 
@@ -209,19 +210,19 @@
             this.label1.Text = "lives,";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label2
+            // desc
             // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.BackColor = System.Drawing.Color.Transparent;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(213)))), ((int)(((byte)(177)))));
-            this.label2.Location = new System.Drawing.Point(192, 234);
-            this.label2.Margin = new System.Windows.Forms.Padding(0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(42, 33);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "task";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.desc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.desc.BackColor = System.Drawing.Color.Transparent;
+            this.desc.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.desc.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(234)))), ((int)(((byte)(234)))), ((int)(((byte)(234)))));
+            this.desc.Location = new System.Drawing.Point(1, 233);
+            this.desc.Margin = new System.Windows.Forms.Padding(0);
+            this.desc.Name = "desc";
+            this.desc.Size = new System.Drawing.Size(324, 34);
+            this.desc.TabIndex = 3;
+            this.desc.Text = "Simplifying lives, one task at a time.";
+            this.desc.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Registration
             // 

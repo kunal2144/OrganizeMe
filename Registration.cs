@@ -1,6 +1,4 @@
-﻿using MySqlConnector;
-using System;
-using System.Diagnostics;
+﻿using System;
 using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;

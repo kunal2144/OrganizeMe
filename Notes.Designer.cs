@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Notes));
             this.head = new System.Windows.Forms.Label();
             this.body = new System.Windows.Forms.Panel();
@@ -45,6 +46,8 @@
             this.filter = new System.Windows.Forms.GroupBox();
             this.filter_personal = new System.Windows.Forms.RadioButton();
             this.filter_work = new System.Windows.Forms.RadioButton();
+            this.notesListContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.exportNotesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.body.SuspendLayout();
             this.sidebar.SuspendLayout();
             this.notesList.SuspendLayout();
@@ -52,6 +55,7 @@
             this.editor.SuspendLayout();
             this.header.SuspendLayout();
             this.filter.SuspendLayout();
+            this.notesListContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // head
@@ -92,6 +96,8 @@
             // 
             // notesList
             // 
+            this.notesList.AutoScroll = true;
+            this.notesList.ContextMenuStrip = this.notesListContextMenu;
             this.notesList.Controls.Add(this.note1);
             this.notesList.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.notesList.Location = new System.Drawing.Point(0, 62);
@@ -261,6 +267,20 @@
             this.filter_work.Text = "Work";
             this.filter_work.UseVisualStyleBackColor = true;
             // 
+            // notesListContextMenu
+            // 
+            this.notesListContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exportNotesToolStripMenuItem});
+            this.notesListContextMenu.Name = "notesListContextMenu";
+            this.notesListContextMenu.Size = new System.Drawing.Size(143, 26);
+            // 
+            // exportNotesToolStripMenuItem
+            // 
+            this.exportNotesToolStripMenuItem.Name = "exportNotesToolStripMenuItem";
+            this.exportNotesToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.exportNotesToolStripMenuItem.Text = "Export Notes";
+            this.exportNotesToolStripMenuItem.Click += new System.EventHandler(this.exportNotesToolStripMenuItem_Click);
+            // 
             // Notes
             // 
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(55)))), ((int)(((byte)(115)))));
@@ -284,6 +304,7 @@
             this.header.PerformLayout();
             this.filter.ResumeLayout(false);
             this.filter.PerformLayout();
+            this.notesListContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -306,6 +327,8 @@
         private System.Windows.Forms.Label searchNotesLabel;
         private System.Windows.Forms.ComboBox searchNotes;
         private System.Windows.Forms.Button newWorkNote;
+        private System.Windows.Forms.ContextMenuStrip notesListContextMenu;
+        private System.Windows.Forms.ToolStripMenuItem exportNotesToolStripMenuItem;
     }
 }
 

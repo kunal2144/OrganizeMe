@@ -1,6 +1,9 @@
-﻿using MySqlConnector;
+﻿using iText.Kernel.Pdf;
+using iText.Layout;
+using iText.Layout.Element;
+using iText.Layout.Properties;
+using MySqlConnector;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
@@ -104,8 +107,17 @@ namespace OrganizeMe
             content.Text = Note.currentNote.content;
 
             updateNoteSearch();
-            if (((Button)sender).Name == "newWorkNote") filter_work.Checked = true;
-            else filter_personal.Checked = true;
+
+            if (((Button)sender).Name == "newWorkNote")
+            {
+                if(filter_work.Checked) filter_personal_CheckedChanged(sender, new EventArgs());
+                else filter_work.Checked = true;
+            }
+            else
+            {
+                if (filter_personal.Checked) filter_personal_CheckedChanged(sender, new EventArgs());
+                else filter_personal.Checked = true;
+            }
         }
 
         private void renderNotesList()
@@ -233,6 +245,54 @@ namespace OrganizeMe
                 Label toHighlightNoteLabel = Note.notes[toHighlightNoteLabelIndex].noteLabel;
                 loadNote(toHighlightNoteLabel, new EventArgs());
             }
+        }
+
+        private void generateReport()
+        {
+            DateTime dateTime = DateTime.Now;
+            PdfWriter writer = new PdfWriter("C:\\Users\\jkuna\\Desktop\\" + dateTime.ToString(@"dd\_MM\_yyyy\_HHmmss") + ".pdf");
+            PdfDocument pdf = new PdfDocument(writer);
+            Document document = new Document(pdf);
+
+            Paragraph header = new Paragraph("Notes Dump")
+               .SetTextAlignment(TextAlignment.CENTER)
+               .SetBold()
+               .SetFontSize(20);
+
+            Paragraph timeStamp = new Paragraph(dateTime.ToString(@"dd-MM-yyy HH:mm:ss"))
+                .SetTextAlignment(TextAlignment.RIGHT)
+                .SetFontSize(10);
+
+            Paragraph newLine = new Paragraph("")
+                .SetFontSize(20);
+
+            document.Add(header);
+            document.Add(timeStamp);
+
+            foreach(Note note in Note.notes)
+            {
+                Paragraph noteTitle = new Paragraph(note.noteLabel.Text)
+                    .SetTextAlignment(TextAlignment.LEFT)
+                    .SetBold()
+                    .SetFontSize(16);
+                
+
+                Paragraph noteData = new Paragraph(note.content) 
+                    .SetTextAlignment(TextAlignment.LEFT)
+                    .SetFontSize(14);
+
+                document.Add(newLine);
+                document.Add(noteTitle);
+                document.Add(noteData);
+            }
+
+            document.Close();
+        }
+
+        private void exportNotesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Note.currentNote.content = content.Text;
+            generateReport();
         }
     }
 }

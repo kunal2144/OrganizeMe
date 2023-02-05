@@ -1,5 +1,9 @@
-﻿using System;
+﻿using MySqlConnector;
+using System;
+using System.Diagnostics;
 using System.Drawing;
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
@@ -9,6 +13,7 @@ namespace OrganizeMe
     {
         Regex emailRegex = new Regex(@"^[\w-\.]+@([\w-]+\.)+\w{2,4}$");
         Regex passwordRegex = new Regex(@"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$");
+        string connectionString = "SERVER=localhost;DATABASE=organizeMe;UID=root;PASSWORD=8136";
 
         public Registration()
         {
@@ -133,10 +138,42 @@ namespace OrganizeMe
                 return;
             }
 
-            Notes notes = new Notes();
-            
-            notes.Show();
+            MySqlConnection connection = null;
+
+            try
+            {
+                connection = new MySqlConnection(connectionString);
+                MySqlDataReader reader;
+                connection.Open();
+                string hash = null;
+
+                using (var md5Hash = MD5.Create())
+                {
+                    var sourceBytes = Encoding.UTF8.GetBytes(Convert.ToString(password.Text));
+                    var hashBytes = md5Hash.ComputeHash(sourceBytes);
+                    hash = BitConverter.ToString(hashBytes).Replace("-", string.Empty);
+                }
+
+                reader = new MySqlCommand("insert into user values (null, '" + emailID.Text + "', '" + hash + "')", connection).ExecuteReader();
+                while (reader.Read()) { }
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            finally
+            {
+                if (connection != null)
+                {
+                    connection.Close();
+                }
+            }
+
             this.Hide();
+            Notes notes = new Notes();
+            notes.Closed += (s, args) => this.Close();
+            notes.Show();
         }
     }
 }

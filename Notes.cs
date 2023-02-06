@@ -208,7 +208,6 @@ namespace OrganizeMe
                 foreach (Note note in Note.notes)
                 {
                     query += String.Format("(null, '{0}', '{1}', '{2}'), ", note.dateCreated, note.content, note.type);
-                    Debug.Write(query);
                 }
 
                 query = query.Substring(0, query.Length - 2);

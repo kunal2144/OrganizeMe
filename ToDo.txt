@@ -4,3 +4,6 @@
 3.2 Think where and how Program 5 can be implemented
 4. Port to MongoDB
 5. Add a Delete button in the contextMenu of the NoteLabel? Or a button overlayed on the NoteLabel
+
+//Latest Req
+Fetch Notes => No notes? New User => One Note, else => Display Fetched Notes

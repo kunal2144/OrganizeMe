@@ -4,6 +4,7 @@ using iText.Layout.Element;
 using iText.Layout.Properties;
 using MySqlConnector;
 using System;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
@@ -31,8 +32,8 @@ namespace OrganizeMe
         {
             Label newLabel = new Label
             {
-                Name = Convert.ToString("note " + (Note.count+1)),
-                Text = Convert.ToString("Note " + (Note.count+1)),
+                Name = Convert.ToString("note " + (Note.count + 1)),
+                Text = Convert.ToString("Note " + (Note.count + 1)),
                 ForeColor = Color.FromArgb(224, 224, 224),
                 BackColor = LABEL_COLOUR_SELECTED,
                 Width = 200,
@@ -51,8 +52,11 @@ namespace OrganizeMe
 
         public void fetchNotes(MySqlConnection conn)
         {
+            MySqlCommand command;
             conn.Open();
-            using (MySqlCommand command = new MySqlCommand("SELECT * FROM NOTES", conn))
+
+            using (command = new MySqlCommand(""))
+            using (command = new MySqlCommand("SELECT * FROM NOTES", conn))
             {
                 using (MySqlDataReader reader = command.ExecuteReader())
                 {
@@ -68,9 +72,9 @@ namespace OrganizeMe
 
         public void updateNoteSearch()
         {
-            foreach(Note note in Note.notes)
+            foreach (Note note in Note.notes)
             {
-                if(!searchNotes.Items.Contains(note.noteLabel.Text)) searchNotes.Items.Add(note.noteLabel.Text);
+                if (!searchNotes.Items.Contains(note.noteLabel.Text)) searchNotes.Items.Add(note.noteLabel.Text);
             }
         }
 
@@ -91,18 +95,18 @@ namespace OrganizeMe
         private void createNewNote_Click(object sender, EventArgs e)
         {
             //Save current note content
-            if(Note.count != 0) Note.currentNote.content = content.Text;
+            if (Note.count != 0) Note.currentNote.content = content.Text;
 
             //Change filter based on button clicked
-            if(((Button)sender).Name == "newWorkNote")
+            if (((Button)sender).Name == "newWorkNote")
             {
                 new Note(Note.count, DateTime.Now.ToString("yyyy'-'MM'-'dd"), "Erase me and start noting!", "work", createNewLabel());
-            } 
+            }
             else
             {
                 new Note(Note.count, DateTime.Now.ToString("yyyy'-'MM'-'dd"), "Erase me and start noting!", "personal", createNewLabel());
             }
- 
+
             Note.currentNote.noteLabel.Show();
             content.Text = Note.currentNote.content;
 
@@ -110,7 +114,7 @@ namespace OrganizeMe
 
             if (((Button)sender).Name == "newWorkNote")
             {
-                if(filter_work.Checked) filter_personal_CheckedChanged(sender, new EventArgs());
+                if (filter_work.Checked) filter_personal_CheckedChanged(sender, new EventArgs());
                 else filter_work.Checked = true;
             }
             else
@@ -123,13 +127,13 @@ namespace OrganizeMe
         private void renderNotesList()
         {
             notesList.Controls.Clear();
-            
-            for(int i = 0; i < Note.count; i++)
+
+            for (int i = 0; i < Note.count; i++)
             {
                 if (Note.notes[i].type == filterType)
                 {
                     if (i != Note.count - 1) (Note.notes[i].noteLabel).BackColor = LABEL_COLOUR_UNSELECTED;
-                    
+
                     notesList.Controls.Add(Note.notes[i].noteLabel);
                 }
             }
@@ -165,7 +169,7 @@ namespace OrganizeMe
                 }
                 else
                 {
-                    if(selectedNote.type == "personal")
+                    if (selectedNote.type == "personal")
                     {
                         filter_personal.Checked = true;
                     }
@@ -179,7 +183,7 @@ namespace OrganizeMe
             }
 
             searchNotes.Text = "";
-        } 
+        }
 
         private void Notes_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -216,7 +220,7 @@ namespace OrganizeMe
                 while (reader.Read()) { }
                 reader.Close();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
             }
@@ -239,7 +243,7 @@ namespace OrganizeMe
                 return (note.type == filterType);
             });
 
-            if(toHighlightNoteLabelIndex != -1)
+            if (toHighlightNoteLabelIndex != -1)
             {
                 Label toHighlightNoteLabel = Note.notes[toHighlightNoteLabelIndex].noteLabel;
                 loadNote(toHighlightNoteLabel, new EventArgs());
@@ -249,7 +253,7 @@ namespace OrganizeMe
         private void generateReport()
         {
             DateTime dateTime = DateTime.Now;
-            PdfWriter writer = new PdfWriter("C:\\Users\\jkuna\\Desktop\\" + dateTime.ToString(@"dd\_MM\_yyyy\_HHmmss") + ".pdf");
+            PdfWriter writer = new PdfWriter("C:\\Users\\" + Environment.UserName + "\\Desktop\\" + dateTime.ToString(@"dd\_MM\_yyyy\_HHmmss") + ".pdf");
             PdfDocument pdf = new PdfDocument(writer);
             Document document = new Document(pdf);
 
@@ -268,15 +272,15 @@ namespace OrganizeMe
             document.Add(header);
             document.Add(timeStamp);
 
-            foreach(Note note in Note.notes)
+            foreach (Note note in Note.notes)
             {
                 Paragraph noteTitle = new Paragraph(note.noteLabel.Text)
                     .SetTextAlignment(TextAlignment.LEFT)
                     .SetBold()
                     .SetFontSize(16);
-                
 
-                Paragraph noteData = new Paragraph(note.content) 
+
+                Paragraph noteData = new Paragraph(note.content)
                     .SetTextAlignment(TextAlignment.LEFT)
                     .SetFontSize(14);
 

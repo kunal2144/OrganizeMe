@@ -21,6 +21,7 @@ namespace OrganizeMe
         public Registration()
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -218,6 +219,13 @@ namespace OrganizeMe
             Notes notes = new Notes();
             notes.Closed += (s, args) => this.Close();
             notes.Show();
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Login login = new Login();
+            login.Show();
+            this.Hide();
         }
     }
 }

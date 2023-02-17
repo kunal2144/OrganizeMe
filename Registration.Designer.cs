@@ -33,6 +33,8 @@
             this.registration_form = new System.Windows.Forms.Panel();
             this.register = new System.Windows.Forms.Button();
             this.termsText = new System.Windows.Forms.LinkLabel();
+            this.terms = new System.Windows.Forms.CheckBox();
+            this.confirmPassword = new System.Windows.Forms.TextBox();
             this.password = new System.Windows.Forms.TextBox();
             this.emailID = new System.Windows.Forms.RichTextBox();
             this.logo = new System.Windows.Forms.PictureBox();
@@ -40,8 +42,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.desc = new System.Windows.Forms.Label();
-            this.terms = new System.Windows.Forms.CheckBox();
-            this.confirmPassword = new System.Windows.Forms.TextBox();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.registration_form.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logo)).BeginInit();
             this.branding.SuspendLayout();
@@ -63,6 +64,7 @@
             // registration_form
             // 
             this.registration_form.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
+            this.registration_form.Controls.Add(this.linkLabel1);
             this.registration_form.Controls.Add(this.register);
             this.registration_form.Controls.Add(this.termsText);
             this.registration_form.Controls.Add(this.terms);
@@ -87,7 +89,7 @@
             this.register.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.register.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.register.ForeColor = System.Drawing.SystemColors.Window;
-            this.register.Location = new System.Drawing.Point(123, 250);
+            this.register.Location = new System.Drawing.Point(123, 244);
             this.register.Name = "register";
             this.register.Size = new System.Drawing.Size(121, 30);
             this.register.TabIndex = 5;
@@ -101,7 +103,7 @@
             this.termsText.ForeColor = System.Drawing.Color.White;
             this.termsText.LinkArea = new System.Windows.Forms.LinkArea(15, 20);
             this.termsText.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.termsText.Location = new System.Drawing.Point(62, 213);
+            this.termsText.Location = new System.Drawing.Point(62, 207);
             this.termsText.Name = "termsText";
             this.termsText.Size = new System.Drawing.Size(268, 24);
             this.termsText.TabIndex = 5;
@@ -110,10 +112,32 @@
             this.termsText.UseCompatibleTextRendering = true;
             this.termsText.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.termsText_LinkClicked);
             // 
+            // terms
+            // 
+            this.terms.AutoSize = true;
+            this.terms.CheckAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.terms.ForeColor = System.Drawing.Color.White;
+            this.terms.Location = new System.Drawing.Point(46, 209);
+            this.terms.Name = "terms";
+            this.terms.Size = new System.Drawing.Size(15, 14);
+            this.terms.TabIndex = 4;
+            this.terms.UseVisualStyleBackColor = true;
+            // 
+            // confirmPassword
+            // 
+            this.confirmPassword.ForeColor = System.Drawing.Color.Gray;
+            this.confirmPassword.Location = new System.Drawing.Point(66, 164);
+            this.confirmPassword.Name = "confirmPassword";
+            this.confirmPassword.Size = new System.Drawing.Size(241, 26);
+            this.confirmPassword.TabIndex = 3;
+            this.confirmPassword.Text = "Confirm Password";
+            this.confirmPassword.Enter += new System.EventHandler(this.placeholderDisappear);
+            this.confirmPassword.Leave += new System.EventHandler(this.placeholderAppear);
+            // 
             // password
             // 
             this.password.ForeColor = System.Drawing.Color.Gray;
-            this.password.Location = new System.Drawing.Point(66, 127);
+            this.password.Location = new System.Drawing.Point(66, 121);
             this.password.Name = "password";
             this.password.Size = new System.Drawing.Size(241, 26);
             this.password.TabIndex = 1;
@@ -126,7 +150,7 @@
             this.emailID.BackColor = System.Drawing.SystemColors.Window;
             this.emailID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.emailID.ForeColor = System.Drawing.Color.Gray;
-            this.emailID.Location = new System.Drawing.Point(66, 86);
+            this.emailID.Location = new System.Drawing.Point(66, 80);
             this.emailID.Multiline = false;
             this.emailID.Name = "emailID";
             this.emailID.Size = new System.Drawing.Size(241, 26);
@@ -202,27 +226,20 @@
             this.desc.Text = "Simplifying lives, one task at a time.";
             this.desc.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // terms
+            // linkLabel1
             // 
-            this.terms.AutoSize = true;
-            this.terms.CheckAlign = System.Drawing.ContentAlignment.BottomLeft;
-            this.terms.ForeColor = System.Drawing.Color.White;
-            this.terms.Location = new System.Drawing.Point(46, 215);
-            this.terms.Name = "terms";
-            this.terms.Size = new System.Drawing.Size(15, 14);
-            this.terms.TabIndex = 4;
-            this.terms.UseVisualStyleBackColor = true;
-            // 
-            // confirmPassword
-            // 
-            this.confirmPassword.ForeColor = System.Drawing.Color.Gray;
-            this.confirmPassword.Location = new System.Drawing.Point(66, 170);
-            this.confirmPassword.Name = "confirmPassword";
-            this.confirmPassword.Size = new System.Drawing.Size(241, 26);
-            this.confirmPassword.TabIndex = 3;
-            this.confirmPassword.Text = "Confirm Password";
-            this.confirmPassword.Enter += new System.EventHandler(this.placeholderDisappear);
-            this.confirmPassword.Leave += new System.EventHandler(this.placeholderAppear);
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.ForeColor = System.Drawing.Color.White;
+            this.linkLabel1.LinkArea = new System.Windows.Forms.LinkArea(25, 30);
+            this.linkLabel1.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.linkLabel1.Location = new System.Drawing.Point(61, 335);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(245, 24);
+            this.linkLabel1.TabIndex = 6;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "Already have an account? Login.";
+            this.linkLabel1.UseCompatibleTextRendering = true;
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // Registration
             // 
@@ -259,6 +276,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox terms;
         private System.Windows.Forms.TextBox confirmPassword;
+        private System.Windows.Forms.LinkLabel linkLabel1;
     }
 }
 

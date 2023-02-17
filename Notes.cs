@@ -81,6 +81,7 @@ namespace OrganizeMe
         public Notes()
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
         }
 
         private void main_Load(object sender, EventArgs e)

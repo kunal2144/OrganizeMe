@@ -27,6 +27,7 @@ namespace OrganizeMe
         public Login()
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
         }
 
         private bool isFormDataValid()

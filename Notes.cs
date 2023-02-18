@@ -1,5 +1,5 @@
 ﻿using iText.Kernel.Pdf;
-using iText.Layout;
+using iDocument = iText.Layout.Document;
 using iText.Layout.Element;
 using iText.Layout.Properties;
 using MySqlConnector;
@@ -7,7 +7,16 @@ using System;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Drawing;
+using System.Net.Http;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Linq;
+using iText.StyledXmlParser.Jsoup.Nodes;
+using System.IO;
+using System.Runtime.Serialization;
 
 namespace OrganizeMe
 {
@@ -23,12 +32,15 @@ namespace OrganizeMe
         public static TextBox currentNoteContent;
         public static string filterType;
 
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
-        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
-        public static extern bool ReleaseCapture();
+        public static Notes instance = null;
 
-        private Label createNewLabel()
+        DataContractSerializer serializer = new DataContractSerializer(typeof(List<Note>));
+
+        Timer timer;
+
+        //private Supabase.Client supabase;
+
+        public Label createNewLabel()
         {
             Label newLabel = new Label
             {
@@ -50,24 +62,26 @@ namespace OrganizeMe
             return newLabel;
         }
 
-        public void fetchNotes(MySqlConnection conn)
+        public async Task<bool> fetchNotes()
         {
-            MySqlCommand command;
-            conn.Open();
+            var client = new HttpClient();
+            var request = new HttpRequestMessage(HttpMethod.Post, "https://adkhafzctymlboywymzr.supabase.co/rest/v1/rpc/get_notes");
+            request.Headers.Add("apikey", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFka2hhZnpjdHltbGJveXd5bXpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzY0NzQ4OTgsImV4cCI6MTk5MjA1MDg5OH0.Q49X9_w-6pCSQ36uIJqrNHXas0gZHJhjnS0omVhNpZw");
+            request.Headers.Add("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFka2hhZnpjdHltbGJveXd5bXpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzY0NzQ4OTgsImV4cCI6MTk5MjA1MDg5OH0.Q49X9_w-6pCSQ36uIJqrNHXas0gZHJhjnS0omVhNpZw");
+            var content = new StringContent("{ \"table_name\":\"notes_" + User.CurrentUser.Id + "\" }", null, "application/json");
+            request.Content = content;
+            var response = await client.SendAsync(request);
 
-            using (command = new MySqlCommand(""))
-            using (command = new MySqlCommand("SELECT * FROM NOTES", conn))
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                using (MySqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        new Note((int)reader.GetValue(0), ((DateTime)reader.GetValue(1)).ToString("yyyy'-'MM'-'dd"), (string)reader.GetValue(2), (string)reader.GetValue(3), createNewLabel());
-                    }
-                    updateNoteSearch();
-                }
+                string notes = await response.Content.ReadAsStringAsync();
+
+                List<Note> notesObj = JsonConvert.DeserializeObject<List<Note>>(notes);
+
+                return true;
             }
-            conn.Close();
+
+            return false;
         }
 
         public void updateNoteSearch()
@@ -82,34 +96,88 @@ namespace OrganizeMe
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
+            instance = this;
         }
 
         private void main_Load(object sender, EventArgs e)
         {
-            fetchNotes(new MySqlConnection("SERVER=localhost;DATABASE=organizeMe;UID=root;PASSWORD=8136"));
+            //supabase = getSupabaseClient();
+            //supabase.InitializeAsync();
+
             if (Note.count == 0) createNewNote_Click(newPersonalNote, new EventArgs());
+
+            updateNoteSearch();
+
+            content.Text = Note.currentNote.Content;
+
+            //Indirectly renders notes through filter_personal_changed => renderNotesList
             filter_personal.Checked = true;
-            content.Text = Note.currentNote.content;
+            content.Text = Note.currentNote.Content;
             content.SelectionLength = 0;
+
+            timer = new Timer();
+            timer.Interval = 5000;
+            timer.Tick += pushData;
+            //timer.Start();
+        }
+
+        private Supabase.Client getSupabaseClient()
+        {
+            var url = Environment.GetEnvironmentVariable("SUPABASE_URL");
+            var key = Environment.GetEnvironmentVariable("SUPABASE_KEY");
+
+            var options = new Supabase.SupabaseOptions
+            {
+                AutoConnectRealtime = true
+            };
+
+            return new Supabase.Client(url, key, options);
+        }
+
+        private async void pushData(object sender, EventArgs e)
+        {
+            //using (FileStream fs = new FileStream("notes.xml", FileMode.Create))
+            //{
+            //    // Serialize the list of notes to the file
+            //    serializer.WriteObject(fs, Note.notes);
+            //}
+
+            var client = new HttpClient();
+            var request = new HttpRequestMessage(HttpMethod.Post, "https://adkhafzctymlboywymzr.supabase.co/rest/v1/rpc/delete_notes");
+            request.Headers.Add("apikey", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFka2hhZnpjdHltbGJveXd5bXpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzY0NzQ4OTgsImV4cCI6MTk5MjA1MDg5OH0.Q49X9_w-6pCSQ36uIJqrNHXas0gZHJhjnS0omVhNpZw");
+            request.Headers.Add("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFka2hhZnpjdHltbGJveXd5bXpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzY0NzQ4OTgsImV4cCI6MTk5MjA1MDg5OH0.Q49X9_w-6pCSQ36uIJqrNHXas0gZHJhjnS0omVhNpZw");
+            var content = new StringContent("{ \"table_name\":\"notes_" + User.CurrentUser.Id + "\" }", null, "application/json");
+            request.Content = content;
+            await client.SendAsync(request);
+
+            client = new HttpClient();
+            request = new HttpRequestMessage(HttpMethod.Post, "https://adkhafzctymlboywymzr.supabase.co/rest/v1/rpc/insert_notes");
+            request.Headers.Add("apikey", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFka2hhZnpjdHltbGJveXd5bXpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzY0NzQ4OTgsImV4cCI6MTk5MjA1MDg5OH0.Q49X9_w-6pCSQ36uIJqrNHXas0gZHJhjnS0omVhNpZw");
+            request.Headers.Add("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFka2hhZnpjdHltbGJveXd5bXpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzY0NzQ4OTgsImV4cCI6MTk5MjA1MDg5OH0.Q49X9_w-6pCSQ36uIJqrNHXas0gZHJhjnS0omVhNpZw");
+
+            content = new StringContent($"{{\"table_name\": \"notes_{User.CurrentUser.Id}\", \"notes_array\": [ {Note.ToString()} ]}}", null, "application/json");
+
+            request.Content = content;
+            await client.SendAsync(request);
         }
 
         private void createNewNote_Click(object sender, EventArgs e)
         {
             //Save current note content
-            if (Note.count != 0) Note.currentNote.content = content.Text;
+            if (Note.count != 0) Note.currentNote.Content = content.Text;
 
             //Change filter based on button clicked
             if (((Button)sender).Name == "newWorkNote")
             {
-                new Note(Note.count, DateTime.Now.ToString("yyyy'-'MM'-'dd"), "Erase me and start noting!", "work", createNewLabel());
+                new Note(Note.count, $"Note {Note.count}", "Erase me and start noting!", DateTimeOffset.Now, DateTimeOffset.Now, "W");
             }
             else
             {
-                new Note(Note.count, DateTime.Now.ToString("yyyy'-'MM'-'dd"), "Erase me and start noting!", "personal", createNewLabel());
+                new Note(Note.count, $"Note {Note.count}", "Erase me and start noting!", DateTimeOffset.Now, DateTimeOffset.Now, "P");
             }
 
             Note.currentNote.noteLabel.Show();
-            content.Text = Note.currentNote.content;
+            content.Text = Note.currentNote.Content;
 
             updateNoteSearch();
 
@@ -131,7 +199,7 @@ namespace OrganizeMe
 
             for (int i = 0; i < Note.count; i++)
             {
-                if (Note.notes[i].type == filterType)
+                if (Note.notes[i].Type == filterType)
                 {
                     if (i != Note.count - 1) (Note.notes[i].noteLabel).BackColor = LABEL_COLOUR_UNSELECTED;
 
@@ -143,13 +211,13 @@ namespace OrganizeMe
         private void loadNote(object sender, EventArgs e)
         {
             //Save current note content
-            Note.currentNote.content = content.Text;
+            Note.currentNote.Content = content.Text;
 
             //Change the current note
             Note.currentNote.noteLabel.BackColor = LABEL_COLOUR_UNSELECTED;
             ((Label)sender).BackColor = LABEL_COLOUR_SELECTED;
             Note.currentNote = Note.notes.Find(note => note.noteLabel == (Label)sender);
-            content.Text = Note.currentNote.content;
+            content.Text = Note.currentNote.Content;
             content.SelectionStart = content.Text.Length;
             content.SelectionLength = 0;
         }
@@ -164,13 +232,13 @@ namespace OrganizeMe
 
             if (selectedNote != null)
             {
-                if (selectedNote.type == filterType)
+                if (selectedNote.Type == filterType)
                 {
                     loadNote(selectedNote.noteLabel, new EventArgs());
                 }
                 else
                 {
-                    if (selectedNote.type == "personal")
+                    if (selectedNote.Type == "P")
                     {
                         filter_personal.Checked = true;
                     }
@@ -188,66 +256,30 @@ namespace OrganizeMe
 
         private void Notes_FormClosing(object sender, FormClosingEventArgs e)
         {
-            String connectionString = "SERVER=localhost;DATABASE=organizeMe;UID=root;PASSWORD=8136";
-            MySqlConnection connection = null;
-
-            //Saving current note content
-            Note.currentNote.content = content.Text;
-
-            try
-            {
-                connection = new MySqlConnection(connectionString);
-                MySqlDataReader reader;
-                connection.Open();
-
-                reader = new MySqlCommand("truncate notes", connection).ExecuteReader();
-                while (reader.Read()) { }
-                reader.Close();
-
-                reader = new MySqlCommand("alter table notes auto_increment = 0", connection).ExecuteReader();
-                while (reader.Read()) { }
-                reader.Close();
-
-                String query = "insert into notes values ";
-
-                foreach (Note note in Note.notes)
-                {
-                    query += String.Format("(null, '{0}', '{1}', '{2}'), ", note.dateCreated, note.content, note.type);
-                }
-
-                query = query.Substring(0, query.Length - 2);
-
-                reader = new MySqlCommand(query, connection).ExecuteReader();
-                while (reader.Read()) { }
-                reader.Close();
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
-            finally
-            {
-                if (connection != null)
-                {
-                    connection.Close();
-                }
-            }
+            Note.currentNote.Content = content.Text;
+            pushData(this, EventArgs.Empty);
         }
 
         private void filter_personal_CheckedChanged(object sender, EventArgs e)
         {
-            filterType = (filter_personal.Checked) ? "personal" : "work";
+            content.Enabled = true;
+            filterType = (filter_personal.Checked) ? "P" : "W";
             renderNotesList();
 
             int toHighlightNoteLabelIndex = Note.notes.FindLastIndex(note =>
             {
-                return (note.type == filterType);
+                return (note.Type == filterType);
             });
 
             if (toHighlightNoteLabelIndex != -1)
             {
                 Label toHighlightNoteLabel = Note.notes[toHighlightNoteLabelIndex].noteLabel;
                 loadNote(toHighlightNoteLabel, new EventArgs());
+            }
+            else
+            {
+                content.Text = string.Empty;
+                content.Enabled= false;
             }
         }
 
@@ -256,7 +288,7 @@ namespace OrganizeMe
             DateTime dateTime = DateTime.Now;
             PdfWriter writer = new PdfWriter("C:\\Users\\" + Environment.UserName + "\\Desktop\\" + dateTime.ToString(@"dd\_MM\_yyyy\_HHmmss") + ".pdf");
             PdfDocument pdf = new PdfDocument(writer);
-            Document document = new Document(pdf);
+            iDocument document = new iDocument(pdf);
 
             Paragraph header = new Paragraph("Notes Dump")
                .SetTextAlignment(TextAlignment.CENTER)
@@ -281,7 +313,7 @@ namespace OrganizeMe
                     .SetFontSize(16);
 
 
-                Paragraph noteData = new Paragraph(note.content)
+                Paragraph noteData = new Paragraph(note.Content)
                     .SetTextAlignment(TextAlignment.LEFT)
                     .SetFontSize(14);
 
@@ -295,7 +327,7 @@ namespace OrganizeMe
 
         private void exportNotesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Note.currentNote.content = content.Text;
+            Note.currentNote.Content = content.Text;
             generateReport();
         }
     }

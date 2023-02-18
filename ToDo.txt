@@ -6,4 +6,5 @@
 5. Add a Delete button in the contextMenu of the NoteLabel? Or a button overlayed on the NoteLabel
 
 //Latest Req
-Fetch Notes => No notes? New User => One Note, else => Display Fetched Notes
+Fetch Notes => No notes? New User => One Note, else => Display Fetched Notes\
+Start from fetchNotes in Notes

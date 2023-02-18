@@ -4,6 +4,7 @@ using Postgrest.Models;
 using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -16,7 +17,6 @@ namespace OrganizeMe
     {
         Regex emailRegex = new Regex(@"^[\w-\.]+@([\w-]+\.)+\w{2,4}$");
         Regex passwordRegex = new Regex(@"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$");
-        //string connectionString = "SERVER=localhost;DATABASE=organizeMe;UID=root;PASSWORD=8136";
 
         public Registration()
         {
@@ -145,7 +145,7 @@ namespace OrganizeMe
             return true;
         }
 
-        private async void pushData()
+        private async Task<bool> pushData()
         {
             string url = "https://adkhafzctymlboywymzr.supabase.co";
             string key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFka2hhZnpjdHltbGJveXd5bXpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzY0NzQ4OTgsImV4cCI6MTk5MjA1MDg5OH0.Q49X9_w-6pCSQ36uIJqrNHXas0gZHJhjnS0omVhNpZw";
@@ -174,51 +174,37 @@ namespace OrganizeMe
             };
 
             await supabase.From<User>().Insert(user);
+
+            user.Id = (await supabase.From<User>()
+                .Select(x => new object[] { x.Id })
+                .Where(x => x.Email == emailID.Text)
+                .Single()).Id;
+
+            User.CurrentUser = user;
+            return true;
         }
 
-        private void submit_Click(object sender, EventArgs e)
+        private async void submit_Click(object sender, EventArgs e)
         {
             if(!isFormDataValid()) return;
 
-            pushData();
+            await pushData();
+            createNotesTable();
 
-            //Commented out the Local MySql DB code.
-            //MySqlConnection connection = null;
-
-            //try
-            //{
-            //    connection = new MySqlConnection(connectionString);
-            //    MySqlDataReader reader;
-            //    connection.Open();
-            //    string hash = null;
-
-            //    using (var md5Hash = MD5.Create())
-            //    {
-            //        var sourceBytes = Encoding.UTF8.GetBytes(Convert.ToString(password.Text));
-            //        var hashBytes = md5Hash.ComputeHash(sourceBytes);
-            //        hash = BitConverter.ToString(hashBytes).Replace("-", string.Empty);
-            //    }
-
-            //    reader = new MySqlCommand("insert into user values (null, '" + emailID.Text + "', '" + hash + "')", connection).ExecuteReader();
-            //    while (reader.Read()) { }
-            //    reader.Close();
-            //}
-            //catch (Exception ex)
-            //{
-            //    Debug.WriteLine(ex.Message);
-            //}
-            //finally
-            //{
-            //    if (connection != null)
-            //    {
-            //        connection.Close();
-            //    }
-            //}            
-
-            this.Hide();
             Notes notes = new Notes();
-            notes.Closed += (s, args) => this.Close();
             notes.Show();
+            this.Hide();
+        }
+
+        private async void createNotesTable()
+        {
+            var client = new HttpClient();
+            var request = new HttpRequestMessage(HttpMethod.Post, "https://adkhafzctymlboywymzr.supabase.co/rest/v1/rpc/create_notes_table");
+            request.Headers.Add("apikey", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFka2hhZnpjdHltbGJveXd5bXpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzY0NzQ4OTgsImV4cCI6MTk5MjA1MDg5OH0.Q49X9_w-6pCSQ36uIJqrNHXas0gZHJhjnS0omVhNpZw");
+            request.Headers.Add("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFka2hhZnpjdHltbGJveXd5bXpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzY0NzQ4OTgsImV4cCI6MTk5MjA1MDg5OH0.Q49X9_w-6pCSQ36uIJqrNHXas0gZHJhjnS0omVhNpZw");
+            var content = new StringContent($"{{ \"user_id\": {User.CurrentUser.Id} }}", null, "application/json");
+            request.Content = content;
+            await client.SendAsync(request);
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

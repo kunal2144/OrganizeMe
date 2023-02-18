@@ -40,6 +40,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.desc = new System.Windows.Forms.Label();
+            this.LoggingIn = new System.Windows.Forms.Label();
             this.login_form.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logo)).BeginInit();
             this.branding.SuspendLayout();
@@ -48,6 +49,7 @@
             // login_form
             // 
             this.login_form.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
+            this.login_form.Controls.Add(this.LoggingIn);
             this.login_form.Controls.Add(this.submit);
             this.login_form.Controls.Add(this.register);
             this.login_form.Controls.Add(this.password);
@@ -198,6 +200,18 @@
             this.desc.Text = "Simplifying lives, one task at a time.";
             this.desc.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // LoggingIn
+            // 
+            this.LoggingIn.AutoSize = true;
+            this.LoggingIn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LoggingIn.ForeColor = System.Drawing.Color.White;
+            this.LoggingIn.Location = new System.Drawing.Point(121, 238);
+            this.LoggingIn.Name = "LoggingIn";
+            this.LoggingIn.Size = new System.Drawing.Size(92, 20);
+            this.LoggingIn.TabIndex = 6;
+            this.LoggingIn.Text = "Logging in";
+            this.LoggingIn.Visible = false;
+            // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -205,6 +219,7 @@
             this.ClientSize = new System.Drawing.Size(684, 361);
             this.Controls.Add(this.login_form);
             this.Controls.Add(this.branding);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.Name = "Login";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -231,5 +246,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label desc;
+        private System.Windows.Forms.Label LoggingIn;
     }
 }

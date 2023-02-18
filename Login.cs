@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Security.Policy;
@@ -15,6 +16,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static Postgrest.Constants;
+using static Supabase.Functions.Client;
 
 namespace OrganizeMe
 {
@@ -22,12 +24,27 @@ namespace OrganizeMe
     {
 
         Regex emailRegex = new Regex(@"^[\w-\.]+@([\w-]+\.)+\w{2,4}$");
-        //string connectionString = "SERVER=localhost;DATABASE=organizeMe;UID=root;PASSWORD=8136";
+        Timer timer;
+        int ellipsisCount = 0;
+
+        public static Login instance = null;
 
         public Login()
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
+            instance = this;
+        }
+
+        private void Login_Load(object sender, EventArgs e)
+        {
+            login_form.Select();
+            register.TabStop = false;
+
+            timer = new Timer();
+            timer.Interval = 200;
+            timer.Tick += animateEllipsis;
+            
         }
 
         private bool isFormDataValid()
@@ -63,9 +80,20 @@ namespace OrganizeMe
 
             var supabase = new Supabase.Client(url, key, options);
             await supabase.InitializeAsync();
+                
+            //var client = new HttpClient();
+            //var request = new HttpRequestMessage(HttpMethod.Post, "https://adkhafzctymlboywymzr.supabase.co/rest/v1/rpc/create_notes_table");
+            //request.Headers.Add("apikey", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFka2hhZnpjdHltbGJveXd5bXpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzY0NzQ4OTgsImV4cCI6MTk5MjA1MDg5OH0.Q49X9_w-6pCSQ36uIJqrNHXas0gZHJhjnS0omVhNpZw");
+            //request.Headers.Add("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFka2hhZnpjdHltbGJveXd5bXpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzY0NzQ4OTgsImV4cCI6MTk5MjA1MDg5OH0.Q49X9_w-6pCSQ36uIJqrNHXas0gZHJhjnS0omVhNpZw");
+            //var content = new StringContent("{ \"user_id\": 12345 }", null, "application/json");
+            //request.Content = content;
+            //var response = await client.SendAsync(request);
+            //response.EnsureSuccessStatusCode();
+            //Console.WriteLine(await response.Content.ReadAsStringAsync());
+
 
             var result = await supabase.From<User>()
-                .Select(x => new object[] { x.Email, x.Password})
+                .Select(x => new object[] { x.Id, x.Email, x.Password, x.CreatedAt})
                 .Where(x => x.Email == emailID.Text)
                 .Single();
 
@@ -79,76 +107,47 @@ namespace OrganizeMe
                     hash = BitConverter.ToString(hashBytes).Replace("-", string.Empty);
                 }
 
-                if(result.Password == hash) isValid= true;
+                if(result.Password == hash)
+                {
+                    isValid = true;
+                    User.CurrentUser = result;
+                }
             }
 
             return new bool[] {emailExists, isValid};
         }
 
+
+
         private async void submit_Click(object sender, EventArgs e)
         {
-            if (!isFormDataValid()) return;
-
-            await checkLoginDetails();
-            var res = await checkLoginDetails();
-
-            //MySqlConnection connection = null;
-
-
-            //try
-            //{
-            //    connection = new MySqlConnection(connectionString);
-            //    MySqlDataReader reader;
-            //    connection.Open();
-
-            //    reader = new MySqlCommand("select * from user", connection).ExecuteReader();
-            //    while (reader.Read())
-            //    {
-            //        if((string)reader.GetValue(1) == emailID.Text)
-            //        {
-            //            emailExists = true;
-            //            using (var md5Hash = MD5.Create())
-            //            {
-            //                var sourceBytes = Encoding.UTF8.GetBytes(Convert.ToString(password.Text));
-            //                var hashBytes = md5Hash.ComputeHash(sourceBytes);
-            //                var hash = BitConverter.ToString(hashBytes).Replace("-", string.Empty);
-
-            //                if (hash == (string)reader.GetValue(2)) isValid= true;
-            //            }
-            //        }
-            //    }
-            //    reader.Close();
-            //}
-            //catch (Exception ex)
-            //{
-            //    Debug.WriteLine(ex.Message);
-            //}
-            //finally
-            //{
-            //    if (connection != null)
-            //    {
-            //        connection.Close();
-            //    }
-            //}
-
-            if (!res[0])
+            if (isFormDataValid())
             {
-                MessageBox.Show("Email does not exist", "Error");
-                return;
-            }
-            else
-            {
-                if (!res[1])
+                submit.Enabled = false;
+                register.Visible = false;
+                LoggingIn.Visible = true;
+                timer.Start();
+
+                await checkLoginDetails();
+                var res = await checkLoginDetails();
+
+                if (res[0] && res[1])
                 {
-                    MessageBox.Show("Wrong password", "Error");
-                    return;
+                    Notes notes = new Notes();
+                    await notes.fetchNotes();
+                    notes.Show();
+                    this.Hide();
                 }
+
+                submit.Enabled = true;
+                register.Visible = true;
+                LoggingIn.Visible = false;
+                LoggingIn.Text = "Logging in";
+                timer.Stop();
+
+                if (!res[0]) MessageBox.Show("Email does not exist", "Error");
+                else if (!res[1]) MessageBox.Show("Wrong password", "Error");
             }
-
-            Notes notes = new Notes();
-
-            notes.Show();
-            this.Hide();
         }
 
         private void placeholderDisappear(object sender, EventArgs e)
@@ -209,40 +208,18 @@ namespace OrganizeMe
             registration.Show();
         }
 
-        private void Login_Load(object sender, EventArgs e)
+        private void animateEllipsis(object sender, EventArgs e)
         {
-            login_form.Select();
-            register.TabStop = false;
-            //createDatabaseIfNotExists("SERVER=localhost;UID=root;PASSWORD=8136", "newDatabase");
+            if(ellipsisCount >= 3)
+            {
+                ellipsisCount = 0;
+                LoggingIn.Text = "Logging in";
+            }
+            else
+            {
+                LoggingIn.Text += ".";
+                ellipsisCount++;
+            }
         }
-
-        //public void createDatabaseIfNotExists(string connectionString, string dbName)
-        //{
-        //    MySqlCommand cmd = null;
-        //    string dir = Application.StartupPath;
-        //    using (var connection = new MySqlConnection(connectionString))
-        //    {
-        //        connection.Open();
-
-        //        using (cmd = new MySqlCommand($"CREATE DATABASE IF NOT EXISTS {dbName}", connection))
-        //        {
-        //            cmd.ExecuteNonQuery();
-        //        }
-
-        //        using (cmd = new MySqlCommand($"USE {dbName}", connection))
-        //        {
-        //            cmd.ExecuteNonQuery();
-        //        }
-        //        //here
-        //        Debug.Write($@"{dir}\Assets\Dumps\10_02_43.sql");
-
-        //        string sql = File.ReadAllText($@"{dir}\Assets\Dumps\10_02_43.sql");
-
-        //        using (cmd = new MySqlCommand(sql, connection))
-        //        {
-        //            cmd.ExecuteNonQuery();
-        //        }
-        //    }
-        //}
     }
 }

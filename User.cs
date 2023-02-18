@@ -11,7 +11,9 @@ namespace OrganizeMe
     [Table("user")]
     internal class User : BaseModel
     {
-        [PrimaryKey("id", false)]
+        public static User CurrentUser = null;
+
+        [PrimaryKey("id")]
         public int Id { get; set; }
         [Column("email")]
         public string Email { get; set; }

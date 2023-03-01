@@ -8,3 +8,8 @@
 //Latest Req
 Fetch Notes => No notes? New User => One Note, else => Display Fetched Notes\
 Start from fetchNotes in Notes
+
+//BLUNDER
+Sometimes on FormClosing notes are deleted but insertion doesn't take place (LOSING ALL NOTES)
+
+//Note title editable => Default title = Untitled

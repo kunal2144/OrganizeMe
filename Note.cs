@@ -49,7 +49,7 @@ namespace OrganizeMe
             CreatedAt = dateCreated;
             UpdatedAt = updatedAt;
             Type= type;
-            this.noteLabel = Notes.instance.createNewLabel();
+            this.noteLabel = Notes.instance.createNewLabel(title);
             currentNote = this;
             notes.Add(this);
         }

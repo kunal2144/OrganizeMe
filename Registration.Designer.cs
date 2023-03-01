@@ -43,6 +43,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.desc = new System.Windows.Forms.Label();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.label3 = new System.Windows.Forms.Label();
             this.registration_form.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logo)).BeginInit();
             this.branding.SuspendLayout();
@@ -64,6 +66,8 @@
             // registration_form
             // 
             this.registration_form.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
+            this.registration_form.Controls.Add(this.label3);
+            this.registration_form.Controls.Add(this.dateTimePicker1);
             this.registration_form.Controls.Add(this.linkLabel1);
             this.registration_form.Controls.Add(this.register);
             this.registration_form.Controls.Add(this.termsText);
@@ -104,7 +108,7 @@
             this.register.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.register.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.register.ForeColor = System.Drawing.SystemColors.Window;
-            this.register.Location = new System.Drawing.Point(123, 244);
+            this.register.Location = new System.Drawing.Point(120, 264);
             this.register.Name = "register";
             this.register.Size = new System.Drawing.Size(121, 30);
             this.register.TabIndex = 5;
@@ -118,7 +122,7 @@
             this.termsText.ForeColor = System.Drawing.Color.White;
             this.termsText.LinkArea = new System.Windows.Forms.LinkArea(15, 20);
             this.termsText.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.termsText.Location = new System.Drawing.Point(62, 207);
+            this.termsText.Location = new System.Drawing.Point(59, 231);
             this.termsText.Name = "termsText";
             this.termsText.Size = new System.Drawing.Size(268, 24);
             this.termsText.TabIndex = 5;
@@ -132,7 +136,7 @@
             this.terms.AutoSize = true;
             this.terms.CheckAlign = System.Drawing.ContentAlignment.BottomLeft;
             this.terms.ForeColor = System.Drawing.Color.White;
-            this.terms.Location = new System.Drawing.Point(46, 209);
+            this.terms.Location = new System.Drawing.Point(43, 233);
             this.terms.Name = "terms";
             this.terms.Size = new System.Drawing.Size(15, 14);
             this.terms.TabIndex = 4;
@@ -141,7 +145,7 @@
             // confirmPassword
             // 
             this.confirmPassword.ForeColor = System.Drawing.Color.Gray;
-            this.confirmPassword.Location = new System.Drawing.Point(66, 164);
+            this.confirmPassword.Location = new System.Drawing.Point(62, 143);
             this.confirmPassword.Name = "confirmPassword";
             this.confirmPassword.Size = new System.Drawing.Size(241, 26);
             this.confirmPassword.TabIndex = 3;
@@ -152,7 +156,7 @@
             // password
             // 
             this.password.ForeColor = System.Drawing.Color.Gray;
-            this.password.Location = new System.Drawing.Point(66, 121);
+            this.password.Location = new System.Drawing.Point(62, 100);
             this.password.Name = "password";
             this.password.Size = new System.Drawing.Size(241, 26);
             this.password.TabIndex = 1;
@@ -165,7 +169,7 @@
             this.emailID.BackColor = System.Drawing.SystemColors.Window;
             this.emailID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.emailID.ForeColor = System.Drawing.Color.Gray;
-            this.emailID.Location = new System.Drawing.Point(66, 80);
+            this.emailID.Location = new System.Drawing.Point(62, 59);
             this.emailID.Multiline = false;
             this.emailID.Name = "emailID";
             this.emailID.Size = new System.Drawing.Size(241, 26);
@@ -241,6 +245,24 @@
             this.desc.Text = "Simplifying lives, one task at a time.";
             this.desc.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // dateTimePicker1
+            // 
+            this.dateTimePicker1.Location = new System.Drawing.Point(140, 184);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(163, 26);
+            this.dateTimePicker1.TabIndex = 7;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.Color.White;
+            this.label3.Location = new System.Drawing.Point(59, 187);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(75, 20);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "Birthday";
+            // 
             // Registration
             // 
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(55)))), ((int)(((byte)(115)))));
@@ -277,6 +299,8 @@
         private System.Windows.Forms.CheckBox terms;
         private System.Windows.Forms.TextBox confirmPassword;
         private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.DateTimePicker dateTimePicker1;
     }
 }
 

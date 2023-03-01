@@ -40,12 +40,12 @@ namespace OrganizeMe
 
         //private Supabase.Client supabase;
 
-        public Label createNewLabel()
+        public Label createNewLabel(string text)
         {
             Label newLabel = new Label
             {
                 Name = Convert.ToString("note " + (Note.count + 1)),
-                Text = Convert.ToString("Note " + (Note.count + 1)),
+                Text = text,
                 ForeColor = Color.FromArgb(224, 224, 224),
                 BackColor = LABEL_COLOUR_SELECTED,
                 Width = 200,
@@ -55,7 +55,8 @@ namespace OrganizeMe
                 Margin = new Padding(0, 0, 0, 0),
                 BorderStyle = BorderStyle.FixedSingle,
                 Font = new Font("Microsoft Sans Serif", 15.75f),
-                Dock = DockStyle.Top
+                Dock = DockStyle.Top,
+                ContextMenuStrip = noteContextMenu,
             };
 
             newLabel.Click += new EventHandler(loadNote);
@@ -323,12 +324,26 @@ namespace OrganizeMe
             }
 
             document.Close();
+            document.Close();
         }
 
-        private void exportNotesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void allNotes_Click(object sender, EventArgs e)
         {
             Note.currentNote.Content = content.Text;
             generateReport();
+        }
+
+        private void deleteNote_Click(object sender, EventArgs e)
+        {
+            Note.notes.Remove(Note.notes.Find(x => x.noteLabel == (Label)(((ContextMenuStrip)((ToolStripMenuItem)sender).GetCurrentParent()).SourceControl)));
+            filter_personal_CheckedChanged(sender, e);
+        }
+
+        private void newTaskToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NewTask nt = new NewTask();
+            nt.Show();
+            this.Hide();
         }
     }
 }

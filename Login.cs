@@ -40,6 +40,7 @@ namespace OrganizeMe
         {
             login_form.Select();
             register.TabStop = false;
+            emailID.SelectionIndent = 3;
 
             timer = new Timer();
             timer.Interval = 200;
@@ -80,17 +81,6 @@ namespace OrganizeMe
 
             var supabase = new Supabase.Client(url, key, options);
             await supabase.InitializeAsync();
-                
-            //var client = new HttpClient();
-            //var request = new HttpRequestMessage(HttpMethod.Post, "https://adkhafzctymlboywymzr.supabase.co/rest/v1/rpc/create_notes_table");
-            //request.Headers.Add("apikey", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFka2hhZnpjdHltbGJveXd5bXpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzY0NzQ4OTgsImV4cCI6MTk5MjA1MDg5OH0.Q49X9_w-6pCSQ36uIJqrNHXas0gZHJhjnS0omVhNpZw");
-            //request.Headers.Add("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFka2hhZnpjdHltbGJveXd5bXpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzY0NzQ4OTgsImV4cCI6MTk5MjA1MDg5OH0.Q49X9_w-6pCSQ36uIJqrNHXas0gZHJhjnS0omVhNpZw");
-            //var content = new StringContent("{ \"user_id\": 12345 }", null, "application/json");
-            //request.Content = content;
-            //var response = await client.SendAsync(request);
-            //response.EnsureSuccessStatusCode();
-            //Console.WriteLine(await response.Content.ReadAsStringAsync());
-
 
             var result = await supabase.From<User>()
                 .Select(x => new object[] { x.Id, x.Email, x.Password, x.CreatedAt})
@@ -160,6 +150,7 @@ namespace OrganizeMe
                     if (textBox.Text == "Email ID")
                     {
                         textBox.Text = "";
+                        ((RichTextBox)textBox).SelectionIndent = 3;
                         textBox.ForeColor = Color.Black;
                     }
                     break;

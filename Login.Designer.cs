@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Login));
             this.login_form = new System.Windows.Forms.Panel();
+            this.LoggingIn = new System.Windows.Forms.Label();
             this.submit = new System.Windows.Forms.Button();
             this.register = new System.Windows.Forms.LinkLabel();
             this.password = new System.Windows.Forms.TextBox();
@@ -40,7 +41,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.desc = new System.Windows.Forms.Label();
-            this.LoggingIn = new System.Windows.Forms.Label();
             this.login_form.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logo)).BeginInit();
             this.branding.SuspendLayout();
@@ -62,6 +62,18 @@
             this.login_form.Padding = new System.Windows.Forms.Padding(20);
             this.login_form.Size = new System.Drawing.Size(357, 361);
             this.login_form.TabIndex = 4;
+            // 
+            // LoggingIn
+            // 
+            this.LoggingIn.AutoSize = true;
+            this.LoggingIn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LoggingIn.ForeColor = System.Drawing.Color.White;
+            this.LoggingIn.Location = new System.Drawing.Point(121, 238);
+            this.LoggingIn.Name = "LoggingIn";
+            this.LoggingIn.Size = new System.Drawing.Size(92, 20);
+            this.LoggingIn.TabIndex = 6;
+            this.LoggingIn.Text = "Logging in";
+            this.LoggingIn.Visible = false;
             // 
             // submit
             // 
@@ -199,18 +211,6 @@
             this.desc.TabIndex = 3;
             this.desc.Text = "Simplifying lives, one task at a time.";
             this.desc.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // LoggingIn
-            // 
-            this.LoggingIn.AutoSize = true;
-            this.LoggingIn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LoggingIn.ForeColor = System.Drawing.Color.White;
-            this.LoggingIn.Location = new System.Drawing.Point(121, 238);
-            this.LoggingIn.Name = "LoggingIn";
-            this.LoggingIn.Size = new System.Drawing.Size(92, 20);
-            this.LoggingIn.TabIndex = 6;
-            this.LoggingIn.Text = "Logging in";
-            this.LoggingIn.Visible = false;
             // 
             // Login
             // 

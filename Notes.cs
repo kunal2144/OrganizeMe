@@ -17,6 +17,7 @@ using System.Linq;
 using iText.StyledXmlParser.Jsoup.Nodes;
 using System.IO;
 using System.Runtime.Serialization;
+using System.Security.RightsManagement;
 
 namespace OrganizeMe
 {
@@ -31,6 +32,8 @@ namespace OrganizeMe
         public static Label currentNoteLabel;
         public static TextBox currentNoteContent;
         public static string filterType;
+
+        public Timer time;
 
         public static Notes instance = null;
 
@@ -98,6 +101,22 @@ namespace OrganizeMe
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
             instance = this;
+
+            ToolTip personalNoteToolTip = new ToolTip();
+
+            personalNoteToolTip.AutoPopDelay = 5000;
+            personalNoteToolTip.InitialDelay = 1000;
+            personalNoteToolTip.ReshowDelay = 500;
+
+            personalNoteToolTip.SetToolTip(this.newPersonalNote, "Create a new personal note");
+
+            ToolTip workNoteToolTip = new ToolTip();
+
+            workNoteToolTip.AutoPopDelay = 5000;
+            workNoteToolTip.InitialDelay = 1000;
+            workNoteToolTip.ReshowDelay = 500;
+
+            workNoteToolTip.SetToolTip(this.newWorkNote, "Create a new work note");
         }
 
         private void main_Load(object sender, EventArgs e)
@@ -321,14 +340,47 @@ namespace OrganizeMe
                 document.Add(newLine);
                 document.Add(noteTitle);
                 document.Add(noteData);
+
+                InitializeMyTimer();
             }
 
             document.Close();
             document.Close();
         }
 
+        private void InitializeMyTimer()
+        {
+            time = new Timer();
+            time.Interval = 30;
+            time.Tick += new EventHandler(IncreaseProgressBar);
+            infoProgress.Maximum = 2;
+            time.Start();
+        }
+
+        private void IncreaseProgressBar(object sender, EventArgs e)
+        {   
+            if (infoProgress.Value == 100)
+            {
+                time.Stop();
+                infoProgress.Visible = false;
+                infoProgress.Value = 0;
+            }
+
+            infoProgress.Value = infoProgress.Maximum;
+            infoProgress.Maximum = infoProgress.Maximum - 1;
+            infoProgress.Maximum += 2;
+
+            if (infoProgress.Value > 70)
+            {
+                infoProgress.Maximum = 101;
+                infoProgress.Value = 101;
+                infoProgress.Maximum = 100;
+            }
+        }
+
         private void allNotes_Click(object sender, EventArgs e)
         {
+            infoProgress.Visible = true;
             Note.currentNote.Content = content.Text;
             generateReport();
         }
@@ -343,7 +395,52 @@ namespace OrganizeMe
         {
             NewTask nt = new NewTask();
             nt.Show();
-            this.Hide();
+        }
+
+        private void newWorkNote_MouseEnter(object sender, EventArgs e)
+        {
+            info.Text = "Create a New Work Note";
+        }
+
+        private void newWorkNote_MouseExit(object sender, EventArgs e)
+        {
+            info.Text = "";
+        }
+
+        private void newPersonalNote_MouseEnter(object sender, EventArgs e)
+        {
+            info.Text = "Create a New Personal Note";
+        }
+
+        private void newPersonalNote_MouseExit(object sender, EventArgs e)
+        {
+            info.Text = "";
+        }
+
+        private void searchNotes_MouseEnter(object sender, EventArgs e)
+        {
+            info.Text = "Search for Notes";
+        }
+
+        private void searchNotes_MouseExit(object sender, EventArgs e)
+        {
+            info.Text = "";
+        }
+
+        private void filter_MouseEnter(object sender, EventArgs e)
+        {
+            info.Text = "Filter the Notes";
+        }
+
+        private void filter_MouseExit(object sender, EventArgs e)
+        {
+            info.Text = "";
+        }
+
+        private void profileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Profile p = new Profile();
+            p.Show();
         }
     }
 }

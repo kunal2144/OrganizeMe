@@ -33,11 +33,14 @@
             this.head = new System.Windows.Forms.Label();
             this.body = new System.Windows.Forms.Panel();
             this.sidebar = new System.Windows.Forms.Panel();
-            this.notesList = new System.Windows.Forms.Panel();
-            this.note1 = new System.Windows.Forms.Label();
             this.noteButton = new System.Windows.Forms.Panel();
             this.newWorkNote = new System.Windows.Forms.Button();
             this.newPersonalNote = new System.Windows.Forms.Button();
+            this.notesList = new System.Windows.Forms.Panel();
+            this.note1 = new System.Windows.Forms.Label();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.info = new System.Windows.Forms.ToolStripStatusLabel();
+            this.infoProgress = new System.Windows.Forms.ToolStripProgressBar();
             this.editor = new System.Windows.Forms.Panel();
             this.content = new System.Windows.Forms.TextBox();
             this.noteContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -57,10 +60,13 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.taskToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newTaskToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.profileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.body.SuspendLayout();
             this.sidebar.SuspendLayout();
-            this.notesList.SuspendLayout();
             this.noteButton.SuspendLayout();
+            this.notesList.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.editor.SuspendLayout();
             this.noteContextMenu.SuspendLayout();
             this.header.SuspendLayout();
@@ -96,41 +102,14 @@
             // sidebar
             // 
             this.sidebar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            this.sidebar.Controls.Add(this.notesList);
             this.sidebar.Controls.Add(this.noteButton);
+            this.sidebar.Controls.Add(this.notesList);
+            this.sidebar.Controls.Add(this.statusStrip1);
             this.sidebar.Dock = System.Windows.Forms.DockStyle.Left;
             this.sidebar.Location = new System.Drawing.Point(0, 0);
             this.sidebar.Name = "sidebar";
             this.sidebar.Size = new System.Drawing.Size(200, 496);
             this.sidebar.TabIndex = 2;
-            // 
-            // notesList
-            // 
-            this.notesList.AutoScroll = true;
-            this.notesList.Controls.Add(this.note1);
-            this.notesList.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.notesList.Location = new System.Drawing.Point(0, 62);
-            this.notesList.Margin = new System.Windows.Forms.Padding(0);
-            this.notesList.Name = "notesList";
-            this.notesList.Size = new System.Drawing.Size(200, 434);
-            this.notesList.TabIndex = 6;
-            // 
-            // note1
-            // 
-            this.note1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(157)))), ((int)(((byte)(157)))), ((int)(((byte)(157)))));
-            this.note1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.note1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.note1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.note1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.note1.Location = new System.Drawing.Point(0, 0);
-            this.note1.Margin = new System.Windows.Forms.Padding(0);
-            this.note1.Name = "note1";
-            this.note1.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
-            this.note1.Size = new System.Drawing.Size(200, 46);
-            this.note1.TabIndex = 4;
-            this.note1.Text = "Note 1";
-            this.note1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.note1.Click += new System.EventHandler(this.loadNote);
             // 
             // noteButton
             // 
@@ -159,6 +138,8 @@
             this.newWorkNote.Text = "Work Note";
             this.newWorkNote.UseVisualStyleBackColor = false;
             this.newWorkNote.Click += new System.EventHandler(this.createNewNote_Click);
+            this.newWorkNote.MouseEnter += new System.EventHandler(this.newWorkNote_MouseEnter);
+            this.newWorkNote.MouseLeave += new System.EventHandler(this.newWorkNote_MouseExit);
             // 
             // newPersonalNote
             // 
@@ -175,6 +156,59 @@
             this.newPersonalNote.Text = "Personal Note\r\n";
             this.newPersonalNote.UseVisualStyleBackColor = false;
             this.newPersonalNote.Click += new System.EventHandler(this.createNewNote_Click);
+            this.newPersonalNote.MouseEnter += new System.EventHandler(this.newPersonalNote_MouseEnter);
+            this.newPersonalNote.MouseLeave += new System.EventHandler(this.newPersonalNote_MouseExit);
+            // 
+            // notesList
+            // 
+            this.notesList.AutoScroll = true;
+            this.notesList.Controls.Add(this.note1);
+            this.notesList.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.notesList.Location = new System.Drawing.Point(0, 62);
+            this.notesList.Margin = new System.Windows.Forms.Padding(0);
+            this.notesList.Name = "notesList";
+            this.notesList.Size = new System.Drawing.Size(200, 412);
+            this.notesList.TabIndex = 6;
+            // 
+            // note1
+            // 
+            this.note1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(157)))), ((int)(((byte)(157)))), ((int)(((byte)(157)))));
+            this.note1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.note1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.note1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.note1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.note1.Location = new System.Drawing.Point(0, 0);
+            this.note1.Margin = new System.Windows.Forms.Padding(0);
+            this.note1.Name = "note1";
+            this.note1.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
+            this.note1.Size = new System.Drawing.Size(200, 46);
+            this.note1.TabIndex = 4;
+            this.note1.Text = "Note 1";
+            this.note1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.note1.Click += new System.EventHandler(this.loadNote);
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.BackColor = System.Drawing.Color.White;
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.info,
+            this.infoProgress});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 474);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(200, 22);
+            this.statusStrip1.TabIndex = 5;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // info
+            // 
+            this.info.Name = "info";
+            this.info.Size = new System.Drawing.Size(0, 17);
+            // 
+            // infoProgress
+            // 
+            this.infoProgress.Name = "infoProgress";
+            this.infoProgress.Size = new System.Drawing.Size(180, 16);
+            this.infoProgress.Visible = false;
             // 
             // editor
             // 
@@ -292,6 +326,8 @@
             this.searchNotes.Size = new System.Drawing.Size(187, 24);
             this.searchNotes.TabIndex = 1;
             this.searchNotes.SelectedIndexChanged += new System.EventHandler(this.searchNotes_SelectedIndexChanged);
+            this.searchNotes.MouseEnter += new System.EventHandler(this.searchNotes_MouseEnter);
+            this.searchNotes.MouseLeave += new System.EventHandler(this.searchNotes_MouseExit);
             // 
             // filter
             // 
@@ -316,6 +352,8 @@
             this.filter_personal.Text = "Personal";
             this.filter_personal.UseVisualStyleBackColor = true;
             this.filter_personal.CheckedChanged += new System.EventHandler(this.filter_personal_CheckedChanged);
+            this.filter_personal.MouseEnter += new System.EventHandler(this.filter_MouseEnter);
+            this.filter_personal.MouseLeave += new System.EventHandler(this.searchNotes_MouseExit);
             // 
             // filter_work
             // 
@@ -326,12 +364,15 @@
             this.filter_work.TabIndex = 2;
             this.filter_work.Text = "Work";
             this.filter_work.UseVisualStyleBackColor = true;
+            this.filter_work.MouseEnter += new System.EventHandler(this.filter_MouseEnter);
+            this.filter_work.MouseLeave += new System.EventHandler(this.filter_MouseExit);
             // 
             // menuStrip1
             // 
             this.menuStrip1.BackColor = System.Drawing.Color.White;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
+            this.editToolStripMenuItem,
             this.taskToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -362,6 +403,21 @@
             this.newTaskToolStripMenuItem.Text = "New Task";
             this.newTaskToolStripMenuItem.Click += new System.EventHandler(this.newTaskToolStripMenuItem_Click);
             // 
+            // editToolStripMenuItem
+            // 
+            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.profileToolStripMenuItem});
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            this.editToolStripMenuItem.Text = "Edit";
+            // 
+            // profileToolStripMenuItem
+            // 
+            this.profileToolStripMenuItem.Name = "profileToolStripMenuItem";
+            this.profileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.profileToolStripMenuItem.Text = "Profile";
+            this.profileToolStripMenuItem.Click += new System.EventHandler(this.profileToolStripMenuItem_Click);
+            // 
             // Notes
             // 
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(55)))), ((int)(((byte)(115)))));
@@ -379,8 +435,11 @@
             this.Load += new System.EventHandler(this.main_Load);
             this.body.ResumeLayout(false);
             this.sidebar.ResumeLayout(false);
-            this.notesList.ResumeLayout(false);
+            this.sidebar.PerformLayout();
             this.noteButton.ResumeLayout(false);
+            this.notesList.ResumeLayout(false);
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.editor.ResumeLayout(false);
             this.editor.PerformLayout();
             this.noteContextMenu.ResumeLayout(false);
@@ -424,6 +483,11 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem taskToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newTaskToolStripMenuItem;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel info;
+        private System.Windows.Forms.ToolStripProgressBar infoProgress;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem profileToolStripMenuItem;
     }
 }
 

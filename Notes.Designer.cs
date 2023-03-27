@@ -58,10 +58,12 @@
             this.filter_work = new System.Windows.Forms.RadioButton();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.taskToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.newTaskToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.profileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.taskToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newTaskToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.emptyContent = new System.Windows.Forms.TextBox();
             this.body.SuspendLayout();
             this.sidebar.SuspendLayout();
             this.noteButton.SuspendLayout();
@@ -213,6 +215,7 @@
             // editor
             // 
             this.editor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
+            this.editor.Controls.Add(this.emptyContent);
             this.editor.Controls.Add(this.content);
             this.editor.Dock = System.Windows.Forms.DockStyle.Right;
             this.editor.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -387,6 +390,29 @@
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
+            // editToolStripMenuItem
+            // 
+            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.profileToolStripMenuItem,
+            this.preferencesToolStripMenuItem});
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            this.editToolStripMenuItem.Text = "Edit";
+            // 
+            // profileToolStripMenuItem
+            // 
+            this.profileToolStripMenuItem.Name = "profileToolStripMenuItem";
+            this.profileToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.profileToolStripMenuItem.Text = "Profile";
+            this.profileToolStripMenuItem.Click += new System.EventHandler(this.profileToolStripMenuItem_Click);
+            // 
+            // preferencesToolStripMenuItem
+            // 
+            this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
+            this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.preferencesToolStripMenuItem.Text = "Preferences";
+            this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.preferencesToolStripMenuItem_Click);
+            // 
             // taskToolStripMenuItem
             // 
             this.taskToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -399,24 +425,26 @@
             // newTaskToolStripMenuItem
             // 
             this.newTaskToolStripMenuItem.Name = "newTaskToolStripMenuItem";
-            this.newTaskToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newTaskToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.newTaskToolStripMenuItem.Text = "New Task";
             this.newTaskToolStripMenuItem.Click += new System.EventHandler(this.newTaskToolStripMenuItem_Click);
             // 
-            // editToolStripMenuItem
+            // emptyContent
             // 
-            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.profileToolStripMenuItem});
-            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
-            this.editToolStripMenuItem.Text = "Edit";
-            // 
-            // profileToolStripMenuItem
-            // 
-            this.profileToolStripMenuItem.Name = "profileToolStripMenuItem";
-            this.profileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.profileToolStripMenuItem.Text = "Profile";
-            this.profileToolStripMenuItem.Click += new System.EventHandler(this.profileToolStripMenuItem_Click);
+            this.emptyContent.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
+            this.emptyContent.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.emptyContent.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.emptyContent.Enabled = false;
+            this.emptyContent.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.emptyContent.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.emptyContent.Location = new System.Drawing.Point(20, 20);
+            this.emptyContent.Margin = new System.Windows.Forms.Padding(0);
+            this.emptyContent.Multiline = true;
+            this.emptyContent.Name = "emptyContent";
+            this.emptyContent.Size = new System.Drawing.Size(760, 456);
+            this.emptyContent.TabIndex = 1;
+            this.emptyContent.TabStop = false;
+            this.emptyContent.Visible = false;
             // 
             // Notes
             // 
@@ -488,6 +516,8 @@
         private System.Windows.Forms.ToolStripProgressBar infoProgress;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem profileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem preferencesToolStripMenuItem;
+        private System.Windows.Forms.TextBox emptyContent;
     }
 }
 

@@ -1,15 +1,1 @@
-﻿1. Update db for current note in loadNote() and in formClosing()
-2. Separate the createNote function and the button click event
-3.1 Prepare an outline for the whole application before implementing any big features
-3.2 Think where and how Program 5 can be implemented
-4. Port to MongoDB
-5. Add a Delete button in the contextMenu of the NoteLabel? Or a button overlayed on the NoteLabel
-
-//Latest Req
-Fetch Notes => No notes? New User => One Note, else => Display Fetched Notes\
-Start from fetchNotes in Notes
-
-//BLUNDER
-Sometimes on FormClosing notes are deleted but insertion doesn't take place (LOSING ALL NOTES)
-
-//Note title editable => Default title = Untitled
+﻿

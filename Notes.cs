@@ -2,22 +2,17 @@
 using iDocument = iText.Layout.Document;
 using iText.Layout.Element;
 using iText.Layout.Properties;
-using MySqlConnector;
 using System;
-using System.Data.SqlClient;
-using System.Diagnostics;
 using System.Drawing;
 using System.Net.Http;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Linq;
-using iText.StyledXmlParser.Jsoup.Nodes;
 using System.IO;
 using System.Runtime.Serialization;
-using System.Security.RightsManagement;
+using static System.Net.WebRequestMethods;
+using File = System.IO.File;
 
 namespace OrganizeMe
 {
@@ -32,6 +27,9 @@ namespace OrganizeMe
         public static Label currentNoteLabel;
         public static TextBox currentNoteContent;
         public static string filterType;
+        public static string profilePicturePath = "";
+
+        private Font contentFont;
 
         public Timer time;
 
@@ -41,7 +39,16 @@ namespace OrganizeMe
 
         Timer timer;
 
-        //private Supabase.Client supabase;
+        public Font getContentFont()
+        {
+            return contentFont;
+        }
+
+        public void setContentFont(Font f)
+        {
+            contentFont = f;
+            content.Font = contentFont;
+        }
 
         public Label createNewLabel(string text)
         {
@@ -117,6 +124,32 @@ namespace OrganizeMe
             workNoteToolTip.ReshowDelay = 500;
 
             workNoteToolTip.SetToolTip(this.newWorkNote, "Create a new work note");
+
+            this.KeyPreview = true;
+            this.KeyDown += new KeyEventHandler(Form_KeyDown);
+        }
+
+        private void Form_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.S)
+            {
+                e.SuppressKeyPress = true;
+                saveCurrentNote();
+            }
+        }
+
+        private void saveCurrentNote()
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Text File|*.txt";
+            
+            if(saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                FileStream file = File.Create(saveFileDialog.FileName);
+                StreamWriter writer = new StreamWriter(file);
+                writer.Write(content.Text);
+                writer.Close();
+            }
         }
 
         private void main_Load(object sender, EventArgs e)
@@ -129,6 +162,7 @@ namespace OrganizeMe
             updateNoteSearch();
 
             content.Text = Note.currentNote.Content;
+            contentFont = content.Font;
 
             //Indirectly renders notes through filter_personal_changed => renderNotesList
             filter_personal.Checked = true;
@@ -186,7 +220,6 @@ namespace OrganizeMe
             //Save current note content
             if (Note.count != 0) Note.currentNote.Content = content.Text;
 
-            //Change filter based on button clicked
             if (((Button)sender).Name == "newWorkNote")
             {
                 new Note(Note.count, $"Note {Note.count}", "Erase me and start noting!", DateTimeOffset.Now, DateTimeOffset.Now, "W");
@@ -283,6 +316,7 @@ namespace OrganizeMe
         private void filter_personal_CheckedChanged(object sender, EventArgs e)
         {
             content.Enabled = true;
+            emptyContent.Visible = false;
             filterType = (filter_personal.Checked) ? "P" : "W";
             renderNotesList();
 
@@ -298,7 +332,7 @@ namespace OrganizeMe
             }
             else
             {
-                content.Text = string.Empty;
+                emptyContent.Visible = true;
                 content.Enabled= false;
             }
         }
@@ -440,6 +474,12 @@ namespace OrganizeMe
         private void profileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Profile p = new Profile();
+            p.Show();
+        }
+
+        private void preferencesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Preferences p = new Preferences();
             p.Show();
         }
     }

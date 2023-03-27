@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Profile));
             this.panel1 = new System.Windows.Forms.Panel();
             this.change = new System.Windows.Forms.Button();
             this.profilePicture = new System.Windows.Forms.PictureBox();
@@ -41,7 +42,7 @@
             this.panel1.Controls.Add(this.profilePicture);
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(387, 491);
+            this.panel1.Size = new System.Drawing.Size(387, 364);
             this.panel1.TabIndex = 6;
             // 
             // change
@@ -56,7 +57,10 @@
             // 
             // profilePicture
             // 
-            this.profilePicture.ImageLocation = "D:\\GitHub Repos\\OrganizeMe\\assets\\Default_Profile_Picture.png";
+            this.profilePicture.ErrorImage = null;
+            this.profilePicture.Image = ((System.Drawing.Image)(resources.GetObject("profilePicture.Image")));
+            this.profilePicture.ImageLocation = "";
+            this.profilePicture.InitialImage = ((System.Drawing.Image)(resources.GetObject("profilePicture.InitialImage")));
             this.profilePicture.Location = new System.Drawing.Point(97, 74);
             this.profilePicture.Name = "profilePicture";
             this.profilePicture.Size = new System.Drawing.Size(190, 161);
@@ -72,6 +76,7 @@
             this.ClientSize = new System.Drawing.Size(384, 361);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Profile";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Profile";
@@ -84,7 +89,7 @@
 
         #endregion
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.PictureBox profilePicture;
         private System.Windows.Forms.Button change;
+        private System.Windows.Forms.PictureBox profilePicture;
     }
 }
